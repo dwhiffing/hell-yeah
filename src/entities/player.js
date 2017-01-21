@@ -151,23 +151,20 @@ export default class Player {
     let y = this.y
     marker.alpha = 1
     slashTimer = slashTimerMax
+
+    let tile
     if (this.dir === 2) {
-      x -= 1
-      this.game.gameMap.destroyTile(this.x-1, this.y)
+      tile = this.game.gameMap.getTile(this.x-1, this.y)
+    } else if (this.dir === 3) {
+      tile = this.game.gameMap.getTile(this.x+1, this.y)
+    } else if (this.dir === 1) {
+      tile = this.game.gameMap.getTile(this.x, this.y-1)
+    } else if (this.dir === 0) {
+      tile = this.game.gameMap.getTile(this.x, this.y+1)
     }
-    if (this.dir === 3) {
-      x += 1
-      this.game.gameMap.destroyTile(this.x+1, this.y)
+
+    if (tile) {
+      this.game.textManager.bufferText()
     }
-    if (this.dir === 1) {
-      y -= 1
-      this.game.gameMap.destroyTile(this.x, this.y-1)
-    }
-    if (this.dir === 0) {
-      y += 1
-      this.game.gameMap.destroyTile(this.x, this.y+1)
-    }
-    marker.x = x * tileSize + 2
-    marker.y = y * tileSize
   }
 }

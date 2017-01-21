@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="10" height="10" tilewidth="116" tileheight="116" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="10" tilewidth="116" tileheight="116" nextobjectid="1">
  <tileset firstgid="1" name="tile" tilewidth="116" tileheight="116" tilecount="14" columns="14">
   <image source="../images/tile.png" width="1624" height="116"/>
  </tileset>
  <tileset firstgid="15" name="stuff" tilewidth="116" tileheight="116" tilecount="14" columns="14">
   <image source="../images/stuff.png" width="1624" height="116"/>
  </tileset>
- <layer name="Tile Layer 1" width="10" height="10">
+ <layer name="Tile Layer 1" width="12" height="10">
   <data encoding="csv">
-1,1,1,1,1,1,1,1,1,1,
-1,5,1,1,1,1,1,1,5,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,
-1,5,1,1,1,1,1,1,5,1,
-1,1,1,1,1,1,1,1,1,1
+1,1,1,1,1,1,1,1,1,1,1,1,
+1,5,1,1,1,1,1,1,1,1,5,1,
+1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,
+1,5,1,1,1,1,1,1,1,1,5,1,
+1,1,1,1,1,1,1,1,1,1,1,1
 </data>
  </layer>
- <layer name="Tile Layer 2" width="10" height="10">
+ <layer name="Tile Layer 2" width="12" height="10">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,
-0,0,16,0,0,0,0,16,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,
-0,0,16,0,0,0,0,16,0,0,
-0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,16,0,0,0,0,0,0,16,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,16,0,0,0,0,0,0,16,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
 </map>

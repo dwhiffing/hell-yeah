@@ -16,6 +16,8 @@ let fastMode = false
 let startIndex = 0
 let lettersPerUpdate = 1
 
+let textObject, objectGroup
+
 export default class TextManager {
   constructor(game) {
     this.game = game
@@ -29,35 +31,32 @@ export default class TextManager {
       wordWrapWidth: this.game.width - rightBuffer - textBuffer - leftBuffer,
     }
 
+    objectGroup = this.game.add.group()
     this.graphics = this.game.add.graphics(leftBuffer, y)
     this.graphics.fixedToCamera = true
 
-    this.text = this.game.add.text(leftBuffer + textBuffer, y + textBuffer - 10, textToDisplay, opts)
-    this.text.fixedToCamera = true
+
+    textObject = this.game.add.text(leftBuffer + textBuffer, y + textBuffer - 10, textToDisplay, opts)
+    textObject.fixedToCamera = true
+
+    objectGroup.add(this.graphics)
+    objectGroup.add(textObject)
+    objectGroup.alpha = 0
 
     this.graphics.beginFill(0x111111)
     this.graphics.drawRect(0, 0, this.game.width - leftBuffer - rightBuffer, boxHeight)
     this.graphics.endFill()
 
-    this.game.interface.zKey.onDown.add(() => {
-      if (gotoNextPage) {
-        fastMode = true
-        lettersPerUpdate = 5
-      } else {
-        this.text.text = ''
-        gotoNextPage = true
-      }
-    })
-
-    this.bufferText(lorem)
+    this.game.interface.zKey.onDown.add(this.onPress)
+    this.game.interface.spaceKey.onDown.add(this.onPress)
   }
 
   update(game) {
     if (!doneBuffering && gotoNextPage) {
 
-      if (this.text._height > 159 && this.text.text != '') {
-        this.text.text = textToDisplay.slice(startIndex, lastWordIndex[1])
-        startIndex = lastWordIndex[1]
+      if (textObject._height > 159 && textObject.text != '') {
+        textObject.text = textToDisplay.slice(startIndex, lastWordIndex[1]+1)
+        startIndex = lastWordIndex[1]+1
         index = lastWordIndex[0]+1
         fastMode = false
         lettersPerUpdate = 1
@@ -68,22 +67,27 @@ export default class TextManager {
       if (textTimer > 0) {
         textTimer -= fastMode ? 5 : 1
       } else {
+        index += lettersPerUpdate
+
         let nextString
         if (doWeirdThing) {
           nextString = textToDisplay.slice(startIndex, index+lettersPerUpdate)
         } else {
           nextString = textToDisplay.slice(index, index+lettersPerUpdate)
         }
-        this.text.text += nextString
+
+        textObject.text = textToDisplay.slice(startIndex, index)
+
         const match = /\s/.exec(nextString)
         if (match) {
           lastWordIndex[1] = lastWordIndex[0]
           lastWordIndex[0] = index + match.index
         }
-        index += lettersPerUpdate
+
         if (index > textToDisplay.length) {
           doneBuffering = true
         }
+
         if (!fastMode) {
           textTimer = timing
         }
@@ -91,9 +95,21 @@ export default class TextManager {
     }
   }
 
-  bufferText(text) {
+  bufferText(text=lorem) {
     textToDisplay = text
     doneBuffering = false
-    textTimer = timing
+    objectGroup.alpha = 1
+  }
+
+  onPress() {
+    if (doneBuffering) {
+      objectGroup.alpha = 0
+    } else if (gotoNextPage) {
+      fastMode = true
+      lettersPerUpdate = 5
+    } else {
+      textObject.text = ''
+      gotoNextPage = true
+    }
   }
 }
