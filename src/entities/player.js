@@ -67,7 +67,7 @@ export default class Player {
     this.lastX = this.x
     this.lastY = this.y
     if (this.dir === dir) {
-      if (dir === 0) {
+      if (dir === 0 && this.game.gameMap.canWalk(this.x, this.y+1)) {
         if (this.game.gameMap.isOccupied(this.x, this.y+1)) {
           this.game.gameMap.pushTile(this.x, this.y+1, this.x, this.y+2)
         } else {
@@ -76,7 +76,7 @@ export default class Player {
           this.y++
         }
       }
-      if (dir === 1) {
+      if (dir === 1 && this.game.gameMap.canWalk(this.x, this.y-1)) {
         if (this.game.gameMap.isOccupied(this.x, this.y-1)) {
           this.game.gameMap.pushTile(this.x, this.y-1, this.x, this.y-2)
         } else {
@@ -85,7 +85,7 @@ export default class Player {
           this.y--
         }
       }
-      if (dir === 2) {
+      if (dir === 2 && this.game.gameMap.canWalk(this.x-1, this.y)) {
         if (this.game.gameMap.isOccupied(this.x-1, this.y)) {
           this.game.gameMap.pushTile(this.x-1, this.y, this.x-2, this.y)
         } else {
@@ -94,7 +94,7 @@ export default class Player {
           this.x--
         }
       }
-      if (dir === 3) {
+      if (dir === 3 && this.game.gameMap.canWalk(this.x+1, this.y)) {
         if (this.game.gameMap.isOccupied(this.x+1, this.y)) {
           this.game.gameMap.pushTile(this.x+1, this.y, this.x+2, this.y)
         } else {

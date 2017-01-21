@@ -12,6 +12,10 @@ export default class GameMap {
     this.stuffLayer.resizeWorld()
   }
 
+  canWalk(x, y) {
+    return !!this.map.getTile(x, y, 'Tile Layer 1')
+  }
+
   getTile(x, y) {
     return this.map.getTile(x, y, 'Tile Layer 2')
   }
