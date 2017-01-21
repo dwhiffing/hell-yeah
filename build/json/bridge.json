@@ -10,7 +10,7 @@
          "width":10,
          "x":0,
          "y":0
-        }, 
+        },
         {
          "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 0, 0, 16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
          "height":10,
@@ -25,35 +25,35 @@
  "nextobjectid":1,
  "orientation":"orthogonal",
  "renderorder":"right-down",
- "tileheight":16,
+ "tileheight":116,
  "tilesets":[
         {
          "columns":14,
          "firstgid":1,
          "image":"..\/images\/tile.png",
-         "imageheight":16,
-         "imagewidth":224,
+         "imageheight":116,
+         "imagewidth":1624,
          "margin":0,
          "name":"tile",
          "spacing":0,
          "tilecount":14,
-         "tileheight":16,
-         "tilewidth":16
-        }, 
+         "tileheight":116,
+         "tilewidth":116
+        },
         {
          "columns":14,
          "firstgid":15,
          "image":"..\/images\/stuff.png",
-         "imageheight":16,
-         "imagewidth":224,
+         "imageheight":116,
+         "imagewidth":1624,
          "margin":0,
          "name":"stuff",
          "spacing":0,
          "tilecount":14,
-         "tileheight":16,
-         "tilewidth":16
+         "tileheight":116,
+         "tilewidth":116
         }],
- "tilewidth":16,
+ "tilewidth":116,
  "version":1,
  "width":10
 }

@@ -3,10 +3,9 @@ export default {
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this)
     this.game.stage.smoothed = false
 
-    this.load.image('tile', 'images/tile.png')
-    this.load.image('menu', 'images/menu.png')
-    this.load.spritesheet('player', 'images/player.png', 16, 16)
-    this.load.spritesheet('stuff', 'images/stuff.png', 16, 16)
+    this.load.spritesheet('tile', 'images/tile.png', 116, 116)
+    this.load.spritesheet('stuff', 'images/stuff.png', 116, 116)
+    this.load.spritesheet('player', 'images/player.png', 116, 116)
 
     this.load.tilemap('sokoban', 'json/sokoban.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('bridge', 'json/bridge.json', null, Phaser.Tilemap.TILED_JSON)
@@ -16,6 +15,6 @@ export default {
   },
 
   onLoadComplete() {
-    this.game.state.start('stealth', true, false)
+    this.game.state.start('sokoban', true, false)
   }
 }

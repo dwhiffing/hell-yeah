@@ -14,7 +14,7 @@ import TriviaState from './states/trivia'
 import StealthState from './states/stealth'
 
 (function() {
-  let game = new Phaser.Game(160, 160, Phaser.AUTO, 'app', null, false, false)
+  let game = new Phaser.Game(1334, 750, Phaser.AUTO, 'app', null, false, false)
 
   game.state.add('boot', BootState)
   game.state.add('load', LoadState)

@@ -4,7 +4,8 @@ let moveCount = 0
 let timerMax = 8
 let slashTimerMax = 8
 let slashTimer = 0
-const speed = 8
+const tileSize = 116
+const speed = tileSize/2
 
 export default class Player {
   constructor(game) {
@@ -14,7 +15,7 @@ export default class Player {
     this.y = 8
     this.dir = 0
     this.canSlash = true
-    this.sprite = game.add.sprite(this.x * 16 + 9, this.y * 16 + 6, 'player')
+    this.sprite = game.add.sprite(this.x * tileSize + tileSize/2, (this.y * tileSize + tileSize/2) - tileSize/10, 'player')
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
     this.currentTile = null
@@ -166,7 +167,7 @@ export default class Player {
       y += 1
       this.game.gameMap.destroyTile(this.x, this.y+1)
     }
-    marker.x = x * 16 + 2
-    marker.y = y * 16
+    marker.x = x * tileSize + 2
+    marker.y = y * tileSize
   }
 }

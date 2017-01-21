@@ -1,9 +1,9 @@
-const tileSize = 16
+const tileSize = 116
 
 export default class GameMap {
-  constructor(game, tilemap) {
+  constructor(game, mapKey) {
     this.game = game
-    this.map = game.add.tilemap(tilemap, tileSize, tileSize)
+    this.map = game.add.tilemap(mapKey, tileSize, tileSize)
     this.map.addTilesetImage('tile')
     this.map.addTilesetImage('stuff')
     this.groundLayer = this.map.createLayer('Tile Layer 1')
