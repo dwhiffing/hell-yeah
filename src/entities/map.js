@@ -1,7 +1,7 @@
 const tileSize = 116
 
 export default class GameMap {
-  constructor(game, mapKey) {
+  constructor(game, mapKey, exitMap) {
     this.game = game
     this.map = game.add.tilemap(mapKey, tileSize, tileSize)
     this.map.addTilesetImage('tile')
@@ -13,6 +13,7 @@ export default class GameMap {
     let spawnTile = this.map.searchTileIndex(18, 0, false, 'Tile Layer 2')
     this.playerX = spawnTile.x
     this.playerY = spawnTile.y
+    this.exitMap = exitMap
     this.destroyTile(spawnTile.x, spawnTile.y)
   }
 
@@ -30,13 +31,16 @@ export default class GameMap {
 
   pushTile(srcX, srcY, destX, destY) {
     if (this.canWalk(destX, destY)) {
-      if (this.getTile(destX, destY)) {
+      if (this.getTile(destX, destY) || !this.canWalk(destX, destY)) {
         return 'blocked'
       } else {
         let tile = this.map.removeTile(srcX, srcY, 'Tile Layer 2')
         return this.map.putTile(tile.index, destX, destY, 'Tile Layer 2')
       }
+    } else {
+      return 'blocked'
     }
+
   }
 
   getPositionsForIndex(index) {
@@ -59,6 +63,9 @@ export default class GameMap {
 
   isOccupied(x, y) {
     const tile = this.getTile(x, y)
-    return !!tile
+    return tile ? [15, 16, 17].indexOf(tile.index) > -1 : false
+  }
+  exit() {
+    this.game.state.start(this.exitMap)
   }
 }

@@ -5,6 +5,7 @@ let floaterManager
 
 export default playStateFactory({
   tilemap: 'memory',
+  exit: 'node',
   create: (game) => {
     const tiles = game.gameMap.getPositionsForIndex(17)
     floaterManager = new FloaterManager(game, tiles)

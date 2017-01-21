@@ -4,13 +4,13 @@ import Player from '../entities/player'
 import TextManager from '../entities/textManager'
 import NonPlayerManager from '../entities/nonPlayerManager'
 
-const playStateFactory = ({ tilemap, create=()=>{}, update=()=>{}, render=()=>{}, shutdown=()=>{} }) => {
+const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=()=>{}, shutdown=()=>{} }) => {
   return {
     create(game) {
       game.stage.backgroundColor = '#2d2d2d'
 
       game.interface = new UserInterface(game)
-      game.gameMap = new GameMap(game, tilemap)
+      game.gameMap = new GameMap(game, tilemap, exit)
       game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY)
       game.nonPlayerManager = new NonPlayerManager(game)
       game.textManager = new TextManager(game)

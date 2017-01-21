@@ -1,8 +1,8 @@
 import playStateFactory from './_play'
 
 export default playStateFactory({
-  tilemap: 'sokoban',
-  exit: 'node',
+  tilemap: 'node',
+  exit: 'memory',
   create: (game) => {
 
   },

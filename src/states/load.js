@@ -12,6 +12,7 @@ export default {
     this.load.tilemap('memory', 'json/memory.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('trivia', 'json/trivia.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('stealth', 'json/stealth.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('node', 'json/node.json', null, Phaser.Tilemap.TILED_JSON)
   },
 
   onLoadComplete() {

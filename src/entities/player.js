@@ -67,18 +67,6 @@ export default class Player extends Entity {
     }
   }
 
-  posFromDir(dir=this.dir, x=this.x, y=this.y) {
-    if (dir === 2) {
-      return [x-1, y]
-    } else if (dir === 3) {
-      return [x+1, y]
-    } else if (dir === 1) {
-      return [x, y-1]
-    } else if (dir === 0) {
-      return [x, y+1]
-    }
-  }
-
   slash() {
     let x = this.x
     let y = this.y
@@ -90,6 +78,13 @@ export default class Player extends Entity {
 
     if (npc) {
       this.game.textManager.bufferConvo(npc.convo)
+    }
+  }
+
+  postMove() {
+    const tile = this.game.gameMap.getTile(this.x, this.y)
+    if (tile && tile.index === 19) {
+      this.game.gameMap.exit()
     }
   }
 }

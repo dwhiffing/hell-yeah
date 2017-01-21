@@ -4,6 +4,7 @@ const convo = ['part one of this dumb conversation, Tell me what to do oh man th
 
 export default playStateFactory({
   tilemap: 'bridge',
+  exit: 'node',
   create: (game) => {
     game.nonPlayerManager.createEntities([[5, 5, [], convo]])
   },
