@@ -1,4 +1,3 @@
-let marker
 let timer = 0
 let moveCount = 0
 let timerMax = 8
@@ -11,20 +10,13 @@ export default class Player {
   constructor(game) {
     this.moving = false
     this.game = game
-    this.x = 8
-    this.y = 8
+    this.x = 0
+    this.y = 0
     this.dir = 0
     this.canSlash = true
     this.sprite = game.add.sprite(this.x * tileSize + tileSize/2, (this.y * tileSize + tileSize/2) - tileSize/10, 'player')
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
-    this.currentTile = null
-
-    marker = game.add.group()
-    const markerGraphics = game.add.graphics()
-    markerGraphics.lineStyle(2, 0x0f380f, 1)
-    markerGraphics.drawRect(4, 4, game.tileSize-10, game.tileSize-10)
-    marker.add(markerGraphics)
   }
 
   update(game) {
@@ -54,9 +46,6 @@ export default class Player {
       }
     }
     slashTimer--
-    if (slashTimer <= slashTimerMax/2) {
-      marker.alpha = 0
-    }
     if (slashTimer <= 0) {
       this.canSlash = true
     }
@@ -149,7 +138,6 @@ export default class Player {
   slash() {
     let x = this.x
     let y = this.y
-    marker.alpha = 1
     slashTimer = slashTimerMax
 
     let tile

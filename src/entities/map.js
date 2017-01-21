@@ -25,8 +25,10 @@ export default class GameMap {
   }
 
   pushTile(srcX, srcY, destX, destY) {
-    this.map.removeTile(srcX, srcY, 'Tile Layer 2')
-    return this.map.putTile(16, destX, destY, 'Tile Layer 2')
+    if (this.canWalk(destX, destY) && !this.getTile(destX, destY)) {
+      this.map.removeTile(srcX, srcY, 'Tile Layer 2')
+      return this.map.putTile(16, destX, destY, 'Tile Layer 2')
+    }
   }
 
   destroyTile(x, y) {
