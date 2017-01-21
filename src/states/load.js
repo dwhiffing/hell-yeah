@@ -4,6 +4,7 @@ export default {
     this.game.stage.smoothed = false
 
     this.load.spritesheet('tile', 'images/tile.png', 116, 116)
+    this.load.spritesheet('triggers', 'images/triggers.png', 116, 116)
     this.load.spritesheet('stuff', 'images/stuff.png', 116, 116)
     this.load.spritesheet('player', 'images/player.png', 116, 116)
 

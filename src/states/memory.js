@@ -7,7 +7,7 @@ export default playStateFactory({
   tilemap: 'memory',
   exit: 'node',
   create: (game) => {
-    const tiles = game.gameMap.getPositionsForIndex(17)
+    const tiles = game.gameMap.getPositionsForIndex(23)
     floaterManager = new FloaterManager(game, tiles)
     tiles.forEach(tile => game.gameMap.destroyTile(tile.x, tile.y))
   },

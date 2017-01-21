@@ -1,6 +1,7 @@
 import Entity from './entity'
 let slashTimerMax = 8
 let slashTimer = 0
+let exitIndex = 31
 
 export default class Player extends Entity {
   constructor(game, x=0, y=0, direction=0) {
@@ -83,8 +84,8 @@ export default class Player extends Entity {
   }
 
   postMove() {
-    const tile = this.game.gameMap.getTile(this.x, this.y)
-    if (tile && tile.index === 19) {
+    const tile = this.game.gameMap.getTile(this.x, this.y, 'Tile Layer 3')
+    if (tile && tile.index === exitIndex) {
       let dir
       if (this.y === 0) { dir = 2 }
       if (this.x === this.game.gameMap.map.width-1) { dir = 3 }

@@ -1,4 +1,7 @@
 const tileSize = 116
+const spawnIndex = 27
+const exitIndex = 31
+const stuffIndexes = [21, 22, 23]
 
 export default class GameMap {
   constructor(game, mapKey, exitMap, direction) {
@@ -6,19 +9,24 @@ export default class GameMap {
     this.map = game.add.tilemap(mapKey, tileSize, tileSize)
     this.map.addTilesetImage('tile')
     this.map.addTilesetImage('stuff')
+    this.map.addTilesetImage('triggers')
     this.groundLayer = this.map.createLayer('Tile Layer 1')
     this.groundLayer.resizeWorld()
+    this.triggersLayer = this.map.createLayer('Tile Layer 3')
+    this.triggersLayer.resizeWorld()
     this.stuffLayer = this.map.createLayer('Tile Layer 2')
     this.stuffLayer.resizeWorld()
 
-    let spawnTile = this.map.searchTileIndex(18, 0, false, 'Tile Layer 2')
-    this.destroyTile(spawnTile.x, spawnTile.y)
+    let spawnTile = this.map.searchTileIndex(spawnIndex, 0, false, 'Tile Layer 3')
+    if (spawnTile) {
+      this.destroyTile(spawnTile.x, spawnTile.y, 'Tile Layer 3')
+    }
     if (typeof direction === 'number') {
-      let exits = this.getPositionsForIndex(19)
+      let exits = this.getPositionsForIndex(exitIndex, 'Tile Layer 3')
       let filteredExits = [
         exits.filter(e => e.y === 0)[0],
-        exits.filter(e => e.x === this.game.gameMap.map.width-1)[0],
-        exits.filter(e => e.y === this.game.gameMap.map.height-1)[0],
+        exits.filter(e => e.x === this.map.width-1)[0],
+        exits.filter(e => e.y === this.map.height-1)[0],
         exits.filter(e => e.x === 0)[0],
       ]
       let dest = filteredExits[direction]
@@ -40,21 +48,17 @@ export default class GameMap {
     this.playerX = spawnTile.x
     this.playerY = spawnTile.y
 
-    this.getTilesForIndex(19).forEach(t => t.alpha = 0)
+    this.getTilesForIndex(exitIndex, 'Tile Layer 3').forEach(t => t.alpha = 0)
 
     this.exitMap = exitMap
   }
 
-  canWalk(x, y) {
-    return !!this.map.getTile(x, y, 'Tile Layer 1')
+  canWalk(x, y, layer='Tile Layer 1') {
+    return !!this.map.getTile(x, y, layer)
   }
 
-  getTile(x, y) {
-    return this.map.getTile(x, y, 'Tile Layer 2')
-  }
-
-  moveTile(x, y) {
-    return this.map.putTile(16, x, y, 'Tile Layer 2')
+  getTile(x, y, layer='Tile Layer 2') {
+    return this.map.getTile(x, y, layer)
   }
 
   pushTile(srcX, srcY, destX, destY) {
@@ -70,12 +74,12 @@ export default class GameMap {
     }
   }
 
-  getTilesForIndex(index) {
+  getTilesForIndex(index, layer='Tile Layer 2') {
     let arr = []
     let tile
     let skip = 0
     do {
-      tile = this.map.searchTileIndex(index, skip, false, 'Tile Layer 2')
+      tile = this.map.searchTileIndex(index, skip, false, layer)
       if (tile) {
         arr.push(tile)
       }
@@ -84,18 +88,19 @@ export default class GameMap {
     return arr
   }
 
-  getPositionsForIndex(index) {
-    return this.getTilesForIndex(index).map(t => ({ x: t.x, y: t.y }))
+  getPositionsForIndex(index, layer='Tile Layer 2') {
+    return this.getTilesForIndex(index, layer).map(t => ({ x: t.x, y: t.y }))
   }
 
-  destroyTile(x, y) {
-    return this.map.removeTile(x, y, 'Tile Layer 2')
+  destroyTile(x, y, layer='Tile Layer 2') {
+    return this.map.removeTile(x, y, layer)
   }
 
   isOccupied(x, y) {
     const tile = this.getTile(x, y)
-    return tile ? [15, 16, 17].indexOf(tile.index) > -1 : false
+    return tile ? stuffIndexes.indexOf(tile.index) > -1 : false
   }
+
   exit(dir) {
     let stateName = typeof this.exitMap === 'string' ? this.exitMap : this.exitMap[dir]
     this.game.state.start(stateName, true, false, { direction: dir })

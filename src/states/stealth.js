@@ -3,8 +3,8 @@ const lorem = ["Food truck church-key master cleanse, succulents brunch forage c
 const bacon = ["Bacon ipsum dolor amet swine short ribs biltong, ham hock bresaola tri-tip ball tip tail. Tri-tip doner strip steak chicken hamburger rump drumstick ham hock sirloin beef cow pork loin turducken meatloaf. Ham shank ball tip fatback t-bone doner ham hock. Corned beef fatback swine ham hock pork belly pork chop. Jowl pork pork belly, shankle pastrami biltong kielbasa. Fatback drumstick boudin, bresaola meatloaf picanha short loin cupim filet mignon."]
 
 const nonPlayers = [
-  // [5, 5, [2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 0, 0], bacon],
-  [6, 8, [0, 1, 2, 3], lorem],
+  [5, 5, [2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 0, 0], bacon],
+  [6, 8, [1, 2, 3, 0], lorem],
 ]
 
 export default playStateFactory({
