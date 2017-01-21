@@ -7,23 +7,25 @@ const timing = 3
 const doWeirdThing = false
 
 let textToDisplay = ''
-let index, gotoNextPage, lastWordIndex, textTimer, fastMode, startIndex, lettersPerUpdate, doneBuffering, textObject, objectGroup
+let index, gotoNextPage, lastWordIndex, textTimer, fastMode, startIndex, finishedCurrentPage, textObject, objectGroup, convoIndex, choiceAText, choiceBText, choiceIndex, inChoice
 
 export default class TextManager {
   constructor(game) {
     this.game = game
 
-    doneBuffering = true
-    this.finishedWithText = true
+    finishedCurrentPage = true
+    this.finishedWithConvo = true
+    this.convo = []
     textToDisplay = ''
     index = 0
-    gotoNextPage = true
+    convoIndex = 0
+    choiceIndex = 0
+    gotoNextPage = false
     lastWordIndex = []
     textTimer = timing
     fastMode = false
     startIndex = 0
-    lettersPerUpdate = 1
-    doneBuffering = true
+    finishedCurrentPage = true
     this.onPress = this.onPress.bind(this)
 
     const y = this.game.height - boxHeight - rightBuffer
@@ -42,8 +44,19 @@ export default class TextManager {
     textObject = this.game.add.text(leftBuffer + textBuffer, y + textBuffer - 10, textToDisplay, opts)
     textObject.fixedToCamera = true
 
+    const choiceOpts = Object.assign({}, opts, { font: 'bold Slackey', fontSize: 30 })
+
+    choiceAText = this.game.add.text(leftBuffer + textBuffer, y + textBuffer + 120, 'choiceA', choiceOpts)
+    choiceBText = this.game.add.text(leftBuffer + textBuffer + 300, y + textBuffer + 120, 'choiceB', choiceOpts)
+    choiceAText.fixedToCamera = true
+    choiceBText.fixedToCamera = true
+    this.game.interface.addLeft(this.toggleChoice.bind(this))
+    this.game.interface.addRight(this.toggleChoice.bind(this))
+
     objectGroup.add(this.graphics)
     objectGroup.add(textObject)
+    objectGroup.add(choiceAText)
+    objectGroup.add(choiceBText)
     objectGroup.alpha = 0
 
     this.graphics.beginFill(0x111111)
@@ -55,28 +68,28 @@ export default class TextManager {
   }
 
   update(game) {
-    if (!doneBuffering && gotoNextPage) {
+    if (!finishedCurrentPage && gotoNextPage) {
 
       if (textObject._height > 159 && textObject.text != '') {
         textObject.text = textToDisplay.slice(startIndex, lastWordIndex[1]+1)
         startIndex = lastWordIndex[1]+1
         index = lastWordIndex[0]+1
         fastMode = false
-        lettersPerUpdate = 1
         gotoNextPage = false
         return
       }
 
       if (textTimer > 0) {
-        textTimer -= fastMode ? 5 : 1
+        textTimer -= fastMode ? 2 : 1
       } else {
-        index += lettersPerUpdate
+        let lettersForUpdate = fastMode ? 2 : 1
+        index += lettersForUpdate
 
         let nextString
         if (doWeirdThing) {
-          nextString = textToDisplay.slice(startIndex, index+lettersPerUpdate)
+          nextString = textToDisplay.slice(startIndex, index+lettersForUpdate)
         } else {
-          nextString = textToDisplay.slice(index, index+lettersPerUpdate)
+          nextString = textToDisplay.slice(index, index+lettersForUpdate)
         }
 
         textObject.text = textToDisplay.slice(startIndex, index)
@@ -88,7 +101,7 @@ export default class TextManager {
         }
 
         if (index > textToDisplay.length) {
-          doneBuffering = true
+          finishedCurrentPage = true
         }
 
         if (!fastMode) {
@@ -98,27 +111,86 @@ export default class TextManager {
     }
   }
 
-  bufferText(text=lorem) {
-    if (this.finishedWithText) {
-      textToDisplay = text
-      doneBuffering = false
+  bufferConvo(convo) {
+    if (this.finishedWithConvo) {
+      convoIndex = 0
+      this.convo = convo
       objectGroup.alpha = 1
+      choiceAText.alpha = 0
+      choiceBText.alpha = 0
+      this.doNext()
+    }
+  }
+
+  bufferText(text=lorem) {
+    if (finishedCurrentPage) {
+      textToDisplay = text
+      fastMode = false
+      finishedCurrentPage = false
       index = 0
       startIndex = 0
-      this.finishedWithText = false
+      this.finishedWithConvo = false
+    }
+  }
+
+  bufferChoice(choice) {
+    inChoice = true
+    textToDisplay = choice.text
+    finishedCurrentPage = false
+    index = 0
+    choiceIndex = 0
+    choiceAText.fontSize = 35
+    startIndex = 0
+    choiceAText.alpha = 1
+    choiceAText.text = choice.choiceA.text
+    choiceBText.text = choice.choiceB.text
+    choiceBText.alpha = 1
+    this.finishedWithConvo = false
+  }
+
+  doNext() {
+    if (convoIndex >= this.convo.length) {
+      this.finishedWithConvo = true
+      objectGroup.alpha = 0
+    } else {
+      if (inChoice) {
+        const response = this.convo[convoIndex][choiceIndex === 0 ? 'choiceA' : 'choiceB'].response
+        this.bufferText(response)
+        inChoice = false
+        convoIndex++
+        choiceAText.alpha = 0
+        choiceBText.alpha = 0
+      } else {
+        let nextPartOfConvo = this.convo[convoIndex]
+        if (typeof nextPartOfConvo === 'string') {
+          this.bufferText(nextPartOfConvo)
+          convoIndex++
+        } else {
+          this.bufferChoice(nextPartOfConvo)
+        }
+      }
     }
   }
 
   onPress() {
-    if (doneBuffering) {
-      objectGroup.alpha = 0
-      setTimeout(() => this.finishedWithText = true, 500)
+    if (finishedCurrentPage) {
+      setTimeout(this.doNext.bind(this), 500)
     } else if (gotoNextPage) {
       fastMode = true
-      lettersPerUpdate = 5
     } else {
       textObject.text = ''
       gotoNextPage = true
+    }
+  }
+
+  toggleChoice() {
+    choiceIndex = choiceIndex === 0 ? 1 : 0
+    if (choiceIndex === 0) {
+      choiceAText.fontSize = 35
+      choiceBText.fontSize = 30
+    } else {
+      choiceAText.fontSize = 30
+      choiceBText.fontSize = 35
     }
   }
 }

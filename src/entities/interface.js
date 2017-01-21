@@ -25,6 +25,16 @@ export default class Interface {
     game.rightPressed = () => cursors.right.isDown || dKey.isDown
     game.priPressed = () => spaceKey.justDown || zKey.justDown
     game.priDown = () => spaceKey.isDown || zKey.isDown
+
+    this.addRight = (fn) => {
+      cursors.right.onDown.add(fn)
+      dKey.onDown.add(fn)
+    }
+    this.addLeft = (fn) => {
+      cursors.left.onDown.add(fn)
+      aKey.onDown.add(fn)
+    }
+
     this.spaceKey = spaceKey
     this.zKey = zKey
 
