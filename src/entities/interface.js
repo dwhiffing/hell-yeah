@@ -24,6 +24,9 @@ export default class Interface {
     game.leftPressed = () => cursors.left.isDown || aKey.isDown
     game.rightPressed = () => cursors.right.isDown || dKey.isDown
     game.priPressed = () => spaceKey.justDown || zKey.justDown
+    game.priDown = () => spaceKey.isDown || zKey.isDown
+    this.spaceKey = spaceKey
+    this.zKey = zKey
 
     oneKey.onDown.add(() => this.game.state.start('sokoban', true, false))
     twoKey.onDown.add(() => this.game.state.start('bridge', true, false))
