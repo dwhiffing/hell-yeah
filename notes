@@ -23,4 +23,17 @@ boardgame-trivia
 
 stealth maze
   move through open area with pokemon trainer
-  
+
+
+
+systems
+  moving tiles (sokoban)
+  shooting grappling hook?
+  text system (everything)
+    choice dialog
+    character portraits
+    text progression
+
+  entities that have specific behaviours
+    follow predefined path
+    rotate in spot

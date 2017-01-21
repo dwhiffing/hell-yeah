@@ -29,14 +29,14 @@ export default class Player {
   update(game) {
     if (!this.moving) {
       if (game.upPressed()) {
-        this.moveTile(1)
+        this.takeMoveInput(1)
       } else if (game.downPressed()) {
-        this.moveTile(0)
+        this.takeMoveInput(0)
       }
       if (game.leftPressed()) {
-        this.moveTile(2)
+        this.takeMoveInput(2)
       } else if (game.rightPressed()) {
-        this.moveTile(3)
+        this.takeMoveInput(3)
       }
       if (game.priPressed() && this.canSlash) {
         this.slash()
@@ -61,11 +61,10 @@ export default class Player {
     }
   }
 
-  moveTile(dir) {
+  takeMoveInput(dir) {
     this.moving = true
     this.lastX = this.x
     this.lastY = this.y
-    console.log(this.x, this.y)
     if (this.dir === dir) {
       if (dir === 0) {
         if (this.game.gameMap.isOccupied(this.x, this.y+1)) {
