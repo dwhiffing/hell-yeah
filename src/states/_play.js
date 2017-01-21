@@ -2,6 +2,7 @@ import GameMap from '../entities/map'
 import UserInterface from '../entities/interface'
 import Player from '../entities/player'
 import TextManager from '../entities/textManager'
+import NonPlayerManager from '../entities/nonPlayerManager'
 
 const playStateFactory = ({ tilemap, create=()=>{}, update=()=>{}, render=()=>{}, shutdown=()=>{} }) => {
   return {
@@ -12,6 +13,11 @@ const playStateFactory = ({ tilemap, create=()=>{}, update=()=>{}, render=()=>{}
       game.gameMap = new GameMap(game, tilemap)
       game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY)
       game.textManager = new TextManager(game)
+      game.nonPlayerManager = new NonPlayerManager(game)
+
+      game.canWalk = (x, y) => {
+        return game.gameMap.canWalk(x, y) && game.nonPlayerManager.canWalk(x, y)
+      }
 
       game.camera.x = 0
       game.camera.y = 0
@@ -23,6 +29,7 @@ const playStateFactory = ({ tilemap, create=()=>{}, update=()=>{}, render=()=>{}
       game.interface.update(game)
       game.player.update(game)
       game.textManager.update(game)
+      game.nonPlayerManager.update(game)
       update(game)
     },
 

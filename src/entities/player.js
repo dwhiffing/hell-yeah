@@ -1,25 +1,14 @@
-let timer = 0
-let moveCount = 0
-let timerMax = 8
+import Entity from './entity'
 let slashTimerMax = 8
 let slashTimer = 0
-const tileSize = 116
-const speed = tileSize/2
 
-export default class Player {
+export default class Player extends Entity {
   constructor(game, x=0, y=0) {
-    this.moving = false
-    this.game = game
-    this.x = x
-    this.y = y
-    this.dir = 0
-    this.canSlash = true
-    this.sprite = game.add.sprite(this.x * tileSize + tileSize/2, (this.y * tileSize + tileSize/2) - tileSize/10, 'player')
-    this.sprite.anchor.x = 0.5
-    this.sprite.anchor.y = 0.5
+    super(game, x, y)
   }
 
   update(game) {
+    super.update()
     if (!this.moving) {
       if (game.upPressed()) {
         this.takeMoveInput(1)
@@ -34,16 +23,6 @@ export default class Player {
       if (game.priPressed() && this.canSlash) {
         this.slash()
       }
-    } else {
-      timer--
-      if (timer <= 0) {
-        if (this.didMove) {
-          this.move()
-        } else {
-          this.turn()
-        }
-        timer = timerMax
-      }
     }
     slashTimer--
     if (slashTimer <= 0) {
@@ -52,86 +31,40 @@ export default class Player {
   }
 
   takeMoveInput(dir) {
-    this.moving = true
-    this.lastX = this.x
-    this.lastY = this.y
     if (this.dir === dir) {
-      if (dir === 0 && this.game.gameMap.canWalk(this.x, this.y+1)) {
-        if (this.game.gameMap.isOccupied(this.x, this.y+1)) {
-          this.game.gameMap.pushTile(this.x, this.y+1, this.x, this.y+2)
-        } else {
-          this.didMove = true
-          moveCount = 0
-          this.y++
-        }
-      }
-      if (dir === 1 && this.game.gameMap.canWalk(this.x, this.y-1)) {
-        if (this.game.gameMap.isOccupied(this.x, this.y-1)) {
-          this.game.gameMap.pushTile(this.x, this.y-1, this.x, this.y-2)
-        } else {
-          this.didMove = true
-          moveCount = 0
-          this.y--
-        }
-      }
-      if (dir === 2 && this.game.gameMap.canWalk(this.x-1, this.y)) {
-        if (this.game.gameMap.isOccupied(this.x-1, this.y)) {
-          this.game.gameMap.pushTile(this.x-1, this.y, this.x-2, this.y)
-        } else {
-          this.didMove = true
-          moveCount = 0
-          this.x--
-        }
-      }
-      if (dir === 3 && this.game.gameMap.canWalk(this.x+1, this.y)) {
-        if (this.game.gameMap.isOccupied(this.x+1, this.y)) {
-          this.game.gameMap.pushTile(this.x+1, this.y, this.x+2, this.y)
-        } else {
-          this.didMove = true
-          moveCount = 0
-          this.x++
-        }
+      let pushedTile = this.pushIfOccupied(dir)
+      if (pushedTile) {
+        this.moving = true
+        return
       }
     }
-    this.dir = dir
+    this.doMove(dir)
   }
 
-  turn() {
-    if (this.dir === 2) {
-      this.sprite.scale.x = 1
-      this.sprite.frame = 2
-    } else if (this.dir === 3) {
-      this.sprite.frame = 2
-      this.sprite.scale.x = -1
-    } else if (this.dir === 1) {
-      this.sprite.frame = 1
-    } else if (this.dir === 0) {
-      this.sprite.frame = 0
+  pushIfOccupied(dir) {
+    if (dir === 0 && this.game.gameMap.isOccupied(this.x, this.y+1)) {
+      return this.game.gameMap.pushTile(this.x, this.y+1, this.x, this.y+2)
     }
-    this.moving = false
+    if (dir === 1 && this.game.gameMap.isOccupied(this.x, this.y-1)) {
+      return this.game.gameMap.pushTile(this.x, this.y-1, this.x, this.y-2)
+    }
+    if (dir === 2 && this.game.gameMap.isOccupied(this.x-1, this.y)) {
+      return this.game.gameMap.pushTile(this.x-1, this.y, this.x-2, this.y)
+    }
+    if (dir === 3 && this.game.gameMap.isOccupied(this.x+1, this.y)) {
+      return this.game.gameMap.pushTile(this.x+1, this.y, this.x+2, this.y)
+    }
   }
 
-  move() {
-    if (this.x === this.lastX && this.y === this.lastY) {
-      return
-    }
-    moveCount++
-    if (this.dir === 2) {
-      this.sprite.x -= speed
-      this.sprite.frame = this.sprite.frame !== 5 ? 5 : 2
-    } else if (this.dir === 3) {
-      this.sprite.x += speed
-      this.sprite.frame = this.sprite.frame !== 5 ? 5 : 2
-    } else if (this.dir === 1) {
-      this.sprite.y -= speed
-      this.sprite.frame = this.sprite.frame !== 4 ? 4 : 1
-    } else if (this.dir === 0) {
-      this.sprite.y += speed
-      this.sprite.frame = this.sprite.frame !== 3 ? 3 : 0
-    }
-    if (moveCount >= 2) {
-      this.moving = false
-      this.didMove = false
+  posFromDir(dir=this.dir, x=this.x, y=this.y) {
+    if (dir === 2) {
+      return [x-1, y]
+    } else if (dir === 3) {
+      return [x+1, y]
+    } else if (dir === 1) {
+      return [x, y-1]
+    } else if (dir === 0) {
+      return [x, y+1]
     }
   }
 
@@ -140,18 +73,11 @@ export default class Player {
     let y = this.y
     slashTimer = slashTimerMax
 
-    let tile
-    if (this.dir === 2) {
-      tile = this.game.gameMap.getTile(this.x-1, this.y)
-    } else if (this.dir === 3) {
-      tile = this.game.gameMap.getTile(this.x+1, this.y)
-    } else if (this.dir === 1) {
-      tile = this.game.gameMap.getTile(this.x, this.y-1)
-    } else if (this.dir === 0) {
-      tile = this.game.gameMap.getTile(this.x, this.y+1)
-    }
+    const pos = this.posFromDir()
+    let tile = this.game.gameMap.getTile(...pos)
+    let npc = this.game.nonPlayerManager.getNpc(...pos)
 
-    if (tile) {
+    if (npc) {
       this.game.textManager.bufferText()
     }
   }
