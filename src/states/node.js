@@ -2,7 +2,7 @@ import playStateFactory from './_play'
 
 export default playStateFactory({
   tilemap: 'node',
-  exit: 'memory',
+  exit: ['stealth', 'memory', 'sokoban', 'trivia'],
   create: (game) => {
 
   },

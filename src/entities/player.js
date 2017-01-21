@@ -84,7 +84,12 @@ export default class Player extends Entity {
   postMove() {
     const tile = this.game.gameMap.getTile(this.x, this.y)
     if (tile && tile.index === 19) {
-      this.game.gameMap.exit()
+      let dir
+      if (this.y === 0) { dir = 0 }
+      if (this.x === this.game.gameMap.map.width-1) { dir = 1 }
+      if (this.y === this.game.gameMap.map.height-1) { dir = 2 }
+      if (this.x === 0) { dir = 3 }
+      this.game.gameMap.exit(dir)
     }
   }
 }

@@ -65,7 +65,11 @@ export default class GameMap {
     const tile = this.getTile(x, y)
     return tile ? [15, 16, 17].indexOf(tile.index) > -1 : false
   }
-  exit() {
-    this.game.state.start(this.exitMap)
+  exit(dir) {
+    if (typeof this.exitMap === 'string') {
+      this.game.state.start(this.exitMap)
+    } else {
+      this.game.state.start(this.exitMap[dir])
+    }
   }
 }
