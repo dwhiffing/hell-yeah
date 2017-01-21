@@ -3,14 +3,14 @@ import UserInterface from '../entities/interface'
 import Player from '../entities/player'
 import TextManager from '../entities/textManager'
 
-const playStateFactory = ({ tilemap, create=()=>{}, update=()=>{}, render=()=>{} }) => {
+const playStateFactory = ({ tilemap, create=()=>{}, update=()=>{}, render=()=>{}, shutdown=()=>{} }) => {
   return {
     create(game) {
       game.stage.backgroundColor = '#2d2d2d'
 
       game.interface = new UserInterface(game)
       game.gameMap = new GameMap(game, tilemap)
-      game.player = new Player(game)
+      game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY)
       game.textManager = new TextManager(game)
 
       game.camera.x = 0
@@ -28,7 +28,11 @@ const playStateFactory = ({ tilemap, create=()=>{}, update=()=>{}, render=()=>{}
 
     render(game) {
       render(game)
-    }
+    },
+
+    shutdown(game) {
+      shutdown(game)
+    },
   }
 }
 

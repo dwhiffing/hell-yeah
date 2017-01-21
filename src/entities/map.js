@@ -10,6 +10,10 @@ export default class GameMap {
     this.groundLayer.resizeWorld()
     this.stuffLayer = this.map.createLayer('Tile Layer 2')
     this.stuffLayer.resizeWorld()
+    let spawnTile = this.map.searchTileIndex(18, 0, false, 'Tile Layer 2')
+    this.playerX = spawnTile.x
+    this.playerY = spawnTile.y
+    this.destroyTile(spawnTile.x, spawnTile.y)
   }
 
   canWalk(x, y) {

@@ -7,11 +7,11 @@ const tileSize = 116
 const speed = tileSize/2
 
 export default class Player {
-  constructor(game) {
+  constructor(game, x=0, y=0) {
     this.moving = false
     this.game = game
-    this.x = 0
-    this.y = 0
+    this.x = x
+    this.y = y
     this.dir = 0
     this.canSlash = true
     this.sprite = game.add.sprite(this.x * tileSize + tileSize/2, (this.y * tileSize + tileSize/2) - tileSize/10, 'player')

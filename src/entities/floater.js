@@ -1,11 +1,14 @@
 const tileSize = 116
 const numTypes = 3
-const floaters = []
-const startPositions = []
+let floaters, startPositions
 
 export default class FloaterManager {
   constructor(game, tiles) {
     this.game = game
+
+    floaters = []
+    startPositions = []
+
     tiles.forEach(tile => {
       let floater = game.add.sprite(tile.x * tileSize, tile.y * tileSize, 'stuff')
       floater.frame = 2
@@ -14,11 +17,15 @@ export default class FloaterManager {
       startPositions.push(tile)
     })
 
-    setTimeout(this.reveal.bind(this), 1000)
+    this.timeout = setTimeout(this.reveal.bind(this), 1000)
   }
 
   update(game) {
 
+  }
+
+  destroy() {
+    clearTimeout(this.timeout)
   }
 
   move() {
@@ -32,12 +39,12 @@ export default class FloaterManager {
 
   reveal() {
     floaters.forEach(floater => floater.tint = this.getColor(floater.colorType))
-    setTimeout(this.hide.bind(this), 1000)
+    this.timeout = setTimeout(this.hide.bind(this), 1000)
   }
 
   hide() {
     floaters.forEach(floater => floater.tint = 0xffffff)
-    setTimeout(this.move.bind(this), 1000)
+    this.timeout = setTimeout(this.move.bind(this), 1000)
   }
 
   getColor(type) {

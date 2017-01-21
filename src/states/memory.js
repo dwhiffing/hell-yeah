@@ -13,4 +13,7 @@ export default playStateFactory({
   update: (game) => {
 
   },
+  shutdown: (game) => {
+    floaterManager.destroy()
+  }
 })
