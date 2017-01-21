@@ -1,63 +1,26 @@
-Map
-  Phaser tilemap
-  each tile has light value
+sokoban
+  3 levels
+    trivial level
+    moderate level
+    super hard level that you dont beat
+  move boxes onto switches to open door
+  camera doesnt move for sokoban
+  camera starts moving at end to reveal game is more than sokoban
 
-Structure
-  each tile can have one structure
-  in order to build structures, colonists must have access, they will take metal from storage to site
-  types:
-    command center - starting point, generates small amount of power and supports 2 colonists
-    tube - connects tiles for colonist access
-    solar panel - generates power, not walkable, not workable
-    biodome - consumes power, creates food, workable, walkable
-    fabricator - consumes power, creates metal, workable, walkable
-    barracks - consumes power, supports colonists, walkable
-    storage - stores surplus resources, not workable, walkable
+papers please
+  entities walk up to player and talk to them
+  make choice between into pit or salvation
+  if you make the wrong choice you start over?
 
+concentration-shooter
+  Bodies show color at top, then move in irratic patterns
+  you have to pick the matching ones to continue
 
-start game with 1 colonist and command center and some power/metal
-  use starting resources to build up colonist count and survive as long as possible
+boardgame-trivia
+  Move around trivia board
+  different tiles have different question types?
+  answer enough questions to finish the game
 
-day night cycle
-  tiles can be in light or shade, power output varies
-
-
-Interface
-  Manages user input
-  Manages resources
-  attrs
-    keys
-
-  methods
-    clickTile
-    selectStructure
-    selectColonist
-    selectStructureToPlace
-    placeStructure
-    checkCost
-    _displayStructurePanel
-    _displayPlaceStructurePanel
-    _displayColonistPanel
-
-Map
-  Manages tilemap
-  methods
-    getTile
-    getTileXY
-    createStructureBlueprint
-
-Structure
-  Represents game structure
-  Attrs
-    cost
-    effect
-    workable
-    walkable
-    numWorking
-    effectCost
-  methods
-    sell
-    getEffect
-
-Colonist
-  Represents game unit
+stealth maze
+  move through open area with pokemon trainer
+  

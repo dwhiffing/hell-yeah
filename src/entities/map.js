@@ -15,6 +15,17 @@ export default class GameMap {
     return this.map.getTile(x, y, 'Tile Layer 2')
   }
 
+  moveTile(x, y) {
+    return this.map.putTile(16, x, y, 'Tile Layer 2')
+  }
+
+  pushTile(srcX, srcY, destX, destY) {
+    // let tile = this.map.getTile(srcX, srcY, 'Tile Layer 2')
+    console.log(srcX, srcY, destX, destY)
+    this.map.removeTile(srcX, srcY, 'Tile Layer 2')
+    return this.map.putTile(16, destX, destY, 'Tile Layer 2')
+  }
+
   destroyTile(x, y) {
     return this.map.removeTile(x, y, 'Tile Layer 2')
   }

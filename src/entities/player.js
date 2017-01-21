@@ -59,35 +59,49 @@ export default class Player {
     if (slashTimer <= 0) {
       this.canSlash = true
     }
-    // if (moveCount >= 2) {
-    //   this.moving = false
-    // }
   }
 
   moveTile(dir) {
     this.moving = true
     this.lastX = this.x
     this.lastY = this.y
+    console.log(this.x, this.y)
     if (this.dir === dir) {
-      if (dir === 0 && !this.game.gameMap.isOccupied(this.x, this.y+1)) {
-        this.didMove = true
-        moveCount = 0
-        this.y++
+      if (dir === 0) {
+        if (this.game.gameMap.isOccupied(this.x, this.y+1)) {
+          this.game.gameMap.pushTile(this.x, this.y+1, this.x, this.y+2)
+        } else {
+          this.didMove = true
+          moveCount = 0
+          this.y++
+        }
       }
-      if (dir === 1 && !this.game.gameMap.isOccupied(this.x, this.y-1)) {
-        this.didMove = true
-        moveCount = 0
-        this.y--
+      if (dir === 1) {
+        if (this.game.gameMap.isOccupied(this.x, this.y-1)) {
+          this.game.gameMap.pushTile(this.x, this.y-1, this.x, this.y-2)
+        } else {
+          this.didMove = true
+          moveCount = 0
+          this.y--
+        }
       }
-      if (dir === 2 && !this.game.gameMap.isOccupied(this.x-1, this.y)) {
-        this.didMove = true
-        moveCount = 0
-        this.x--
+      if (dir === 2) {
+        if (this.game.gameMap.isOccupied(this.x-1, this.y)) {
+          this.game.gameMap.pushTile(this.x-1, this.y, this.x-2, this.y)
+        } else {
+          this.didMove = true
+          moveCount = 0
+          this.x--
+        }
       }
-      if (dir === 3 && !this.game.gameMap.isOccupied(this.x+1, this.y)) {
-        this.didMove = true
-        moveCount = 0
-        this.x++
+      if (dir === 3) {
+        if (this.game.gameMap.isOccupied(this.x+1, this.y)) {
+          this.game.gameMap.pushTile(this.x+1, this.y, this.x+2, this.y)
+        } else {
+          this.didMove = true
+          moveCount = 0
+          this.x++
+        }
       }
     }
     this.dir = dir
