@@ -12,8 +12,8 @@ const playStateFactory = ({ tilemap, create=()=>{}, update=()=>{}, render=()=>{}
       game.interface = new UserInterface(game)
       game.gameMap = new GameMap(game, tilemap)
       game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY)
-      game.textManager = new TextManager(game)
       game.nonPlayerManager = new NonPlayerManager(game)
+      game.textManager = new TextManager(game)
 
       game.canWalk = (x, y) => {
         return game.gameMap.canWalk(x, y) && game.nonPlayerManager.canWalk(x, y)

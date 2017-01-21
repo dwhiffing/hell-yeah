@@ -5,10 +5,18 @@ let slashTimer = 0
 export default class Player extends Entity {
   constructor(game, x=0, y=0) {
     super(game, x, y)
+    this.game = game
+    this.game.interface.zKey.onDown.add(this.doSlash.bind(this))
+    this.game.interface.spaceKey.onDown.add(this.doSlash.bind(this))
   }
 
   update(game) {
     super.update()
+
+    if (!this.game.textManager.finishedWithText) {
+      return
+    }
+
     if (!this.moving) {
       if (game.upPressed()) {
         this.takeMoveInput(1)
@@ -20,13 +28,16 @@ export default class Player extends Entity {
       } else if (game.rightPressed()) {
         this.takeMoveInput(3)
       }
-      if (game.priPressed() && this.canSlash) {
-        this.slash()
-      }
     }
     slashTimer--
     if (slashTimer <= 0) {
       this.canSlash = true
+    }
+  }
+
+  doSlash() {
+    if (this.canSlash) {
+      this.slash()
     }
   }
 

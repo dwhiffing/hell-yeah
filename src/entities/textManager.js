@@ -11,16 +11,20 @@ let index = 0
 let gotoNextPage = true
 let lastWordIndex = []
 let textTimer = timing
-let doneBuffering = true
 let fastMode = false
 let startIndex = 0
 let lettersPerUpdate = 1
+let doneBuffering = true
 
 let textObject, objectGroup
 
 export default class TextManager {
   constructor(game) {
     this.game = game
+
+    doneBuffering = true
+    this.finishedWithText = true
+    this.onPress = this.onPress.bind(this)
 
     const y = this.game.height - boxHeight - rightBuffer
     const opts = {
@@ -34,7 +38,6 @@ export default class TextManager {
     objectGroup = this.game.add.group()
     this.graphics = this.game.add.graphics(leftBuffer, y)
     this.graphics.fixedToCamera = true
-
 
     textObject = this.game.add.text(leftBuffer + textBuffer, y + textBuffer - 10, textToDisplay, opts)
     textObject.fixedToCamera = true
@@ -96,14 +99,20 @@ export default class TextManager {
   }
 
   bufferText(text=lorem) {
-    textToDisplay = text
-    doneBuffering = false
-    objectGroup.alpha = 1
+    if (this.finishedWithText) {
+      textToDisplay = text
+      doneBuffering = false
+      objectGroup.alpha = 1
+      index = 0
+      startIndex = 0
+      this.finishedWithText = false
+    }
   }
 
   onPress() {
     if (doneBuffering) {
       objectGroup.alpha = 0
+      setTimeout(() => this.finishedWithText = true, 500)
     } else if (gotoNextPage) {
       fastMode = true
       lettersPerUpdate = 5
