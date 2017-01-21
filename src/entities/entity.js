@@ -2,12 +2,12 @@ const tileSize = 116
 let timerMax = 8
 
 export default class Entity {
-  constructor(game, x=0, y=0) {
+  constructor(game, x=0, y=0, direction=0) {
     this.moving = false
     this.game = game
     this.x = x
     this.y = y
-    this.dir = 0
+    this.dir = direction
     this.mod = 2
     this.speed = tileSize/this.mod
     this.moveCount = 0
@@ -15,6 +15,8 @@ export default class Entity {
     this.sprite = game.add.sprite(this.x * tileSize + tileSize/2, (this.y * tileSize + tileSize/2) - tileSize/10, 'player')
     this.sprite.anchor.x = 0.5
     this.sprite.anchor.y = 0.5
+    this.inverseDirection = [2, 3, 0, 1]
+    this.setDirection()
   }
 
   update(game) {
@@ -57,6 +59,15 @@ export default class Entity {
 
   turn() {
     this.moveCount++
+    this.setDirection()
+    if (this.moveCount >= this.mod) {
+      this.postMove()
+      this.moving = false
+    }
+  }
+
+  setDirection(dir=this.dir) {
+    this.dir = dir
     if (this.dir === 0) {
       this.sprite.frame = 1
     } else if (this.dir === 1) {
@@ -67,10 +78,6 @@ export default class Entity {
     } else if (this.dir === 3) {
       this.sprite.scale.x = 1
       this.sprite.frame = 2
-    }
-    if (this.moveCount >= this.mod) {
-      this.postMove()
-      this.moving = false
     }
   }
 

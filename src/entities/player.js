@@ -3,8 +3,8 @@ let slashTimerMax = 8
 let slashTimer = 0
 
 export default class Player extends Entity {
-  constructor(game, x=0, y=0) {
-    super(game, x, y)
+  constructor(game, x=0, y=0, direction=0) {
+    super(game, x, y, direction)
     this.game = game
     this.game.interface.zKey.onDown.add(this.doSlash.bind(this))
     this.game.interface.spaceKey.onDown.add(this.doSlash.bind(this))
@@ -78,6 +78,7 @@ export default class Player extends Entity {
 
     if (npc) {
       this.game.textManager.bufferConvo(npc.convo)
+      npc.setDirection(this.inverseDirection[this.dir])
     }
   }
 
@@ -85,10 +86,10 @@ export default class Player extends Entity {
     const tile = this.game.gameMap.getTile(this.x, this.y)
     if (tile && tile.index === 19) {
       let dir
-      if (this.y === 0) { dir = 0 }
-      if (this.x === this.game.gameMap.map.width-1) { dir = 1 }
-      if (this.y === this.game.gameMap.map.height-1) { dir = 2 }
-      if (this.x === 0) { dir = 3 }
+      if (this.y === 0) { dir = 2 }
+      if (this.x === this.game.gameMap.map.width-1) { dir = 3 }
+      if (this.y === this.game.gameMap.map.height-1) { dir = 0 }
+      if (this.x === 0) { dir = 1 }
       this.game.gameMap.exit(dir)
     }
   }

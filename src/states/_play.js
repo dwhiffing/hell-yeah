@@ -6,12 +6,17 @@ import NonPlayerManager from '../entities/nonPlayerManager'
 
 const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=()=>{}, shutdown=()=>{} }) => {
   return {
+    init(opts) {
+      this.opts = opts
+    },
     create(game) {
       game.stage.backgroundColor = '#2d2d2d'
 
+      this.opts = this.opts || {}
+
       game.interface = new UserInterface(game)
-      game.gameMap = new GameMap(game, tilemap, exit)
-      game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY)
+      game.gameMap = new GameMap(game, tilemap, exit, this.opts.direction)
+      game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY, game.gameMap.playerDir)
       game.nonPlayerManager = new NonPlayerManager(game)
       game.textManager = new TextManager(game)
 
