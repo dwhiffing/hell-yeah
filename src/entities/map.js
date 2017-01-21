@@ -31,6 +31,20 @@ export default class GameMap {
     }
   }
 
+  getPositionsForIndex(index) {
+    let arr = []
+    let tile
+    let skip = 0
+    do {
+      tile = this.map.searchTileIndex(index, skip, false, 'Tile Layer 2')
+      if (tile) {
+        arr.push({ x: tile.x, y: tile.y })
+      }
+      skip++
+    } while (tile && skip < 500)
+    return arr
+  }
+
   destroyTile(x, y) {
     return this.map.removeTile(x, y, 'Tile Layer 2')
   }
