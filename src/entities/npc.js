@@ -2,10 +2,11 @@ import Entity from './entity'
 
 
 export default class NonPlayer extends Entity {
-  constructor(game, x=0, y=0, _movements=[], loop=true) {
+  constructor(game, x=0, y=0, _movements=[], convo, loop=true) {
     super(game, x, y)
     this.movements = [..._movements]
     this.queued = []
+    this.convo = convo
     this.moveTo()
   }
 

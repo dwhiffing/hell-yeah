@@ -2,7 +2,6 @@ const boxHeight = 200
 const leftBuffer = 200
 const rightBuffer = 40
 const textBuffer = 30
-const lorem = "Food truck church-key master cleanse, succulents brunch forage cold-pressed pok pok lo-fi twee organic banjo. Shoreditch blue bottle cliche austin biodiesel four loko. Fam PBR&B cliche kinfolk forage, lo-fi chambray bicycle rights gochujang kickstarter fashion axe bitters church-key 90's iPhone. XOXO synth meditation, aesthetic tumeric stumptown unicorn normcore blog 3 wolf moon try-hard offal pok pok you probably haven't heard of them. Knausgaard lo-fi live-edge whatever. Freegan sriracha chartreuse, synth iPhone succulents fanny pack vinyl live-edge mumblecore tacos. Bushwick poke cliche roof party, snackwave chillwave venmo fingerstache paleo portland enamel pin vape meditation jianbing."
 const timing = 3
 const doWeirdThing = false
 
@@ -122,7 +121,7 @@ export default class TextManager {
     }
   }
 
-  bufferText(text=lorem) {
+  bufferText(text) {
     if (finishedCurrentPage) {
       textToDisplay = text
       fastMode = false
