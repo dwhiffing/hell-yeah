@@ -39,14 +39,14 @@ export default class Entity {
 
     if (this.dir === dir) {
       this.didMove = true
-      if (dir === 0 && this.game.canWalk(this.x, this.y+1)) {
-        this.y += 1
-      } else if (dir === 1 && this.game.canWalk(this.x, this.y-1)) {
+      if (dir === 0 && this.game.canWalk(this.x, this.y-1)) {
         this.y -= 1
-      } else if (dir === 2 && this.game.canWalk(this.x-1, this.y)) {
-        this.x -= 1
-      } else if (dir === 3 && this.game.canWalk(this.x+1, this.y)) {
+      } else if (dir === 1 && this.game.canWalk(this.x+1, this.y)) {
         this.x += 1
+      } else if (dir === 2 && this.game.canWalk(this.x, this.y+1)) {
+        this.y += 1
+      } else if (dir === 3 && this.game.canWalk(this.x-1, this.y)) {
+        this.x -= 1
       } else {
         this.moving = false
         this.didMove = false
@@ -57,16 +57,16 @@ export default class Entity {
 
   turn() {
     this.moveCount++
-    if (this.dir === 2) {
-      this.sprite.scale.x = 1
-      this.sprite.frame = 2
-    } else if (this.dir === 3) {
+    if (this.dir === 0) {
+      this.sprite.frame = 1
+    } else if (this.dir === 1) {
       this.sprite.frame = 2
       this.sprite.scale.x = -1
-    } else if (this.dir === 1) {
-      this.sprite.frame = 1
-    } else if (this.dir === 0) {
+    } else if (this.dir === 2) {
       this.sprite.frame = 0
+    } else if (this.dir === 3) {
+      this.sprite.scale.x = 1
+      this.sprite.frame = 2
     }
     if (this.moveCount >= this.mod) {
       this.postMove()
@@ -75,14 +75,14 @@ export default class Entity {
   }
 
   posFromDir(dir=this.dir, x=this.x, y=this.y) {
-    if (dir === 2) {
-      return [x-1, y]
-    } else if (dir === 3) {
-      return [x+1, y]
-    } else if (dir === 1) {
+    if (dir === 0) {
       return [x, y-1]
-    } else if (dir === 0) {
+    } else if (dir === 1) {
+      return [x+1, y]
+    } else if (dir === 2) {
       return [x, y+1]
+    } else if (dir === 3) {
+      return [x-1, y]
     }
   }
 
@@ -91,18 +91,18 @@ export default class Entity {
       return
     }
     this.moveCount++
-    if (this.dir === 2) {
-      this.sprite.x -= this.speed
-      this.sprite.frame = this.sprite.frame !== 5 ? 5 : 2
-    } else if (this.dir === 3) {
-      this.sprite.x += this.speed
-      this.sprite.frame = this.sprite.frame !== 5 ? 5 : 2
-    } else if (this.dir === 1) {
+    if (this.dir === 0) {
       this.sprite.y -= this.speed
       this.sprite.frame = this.sprite.frame !== 4 ? 4 : 1
-    } else if (this.dir === 0) {
+    } else if (this.dir === 1) {
+      this.sprite.x += this.speed
+      this.sprite.frame = this.sprite.frame !== 5 ? 5 : 2
+    } else if (this.dir === 2) {
       this.sprite.y += this.speed
       this.sprite.frame = this.sprite.frame !== 3 ? 3 : 0
+    } else if (this.dir === 3) {
+      this.sprite.x -= this.speed
+      this.sprite.frame = this.sprite.frame !== 5 ? 5 : 2
     }
     if (this.moveCount >= this.mod) {
       this.postMove()

@@ -19,14 +19,14 @@ export default class Player extends Entity {
 
     if (!this.moving) {
       if (game.upPressed()) {
-        this.takeMoveInput(1)
-      } else if (game.downPressed()) {
         this.takeMoveInput(0)
+      } else if (game.downPressed()) {
+        this.takeMoveInput(2)
       }
       if (game.leftPressed()) {
-        this.takeMoveInput(2)
-      } else if (game.rightPressed()) {
         this.takeMoveInput(3)
+      } else if (game.rightPressed()) {
+        this.takeMoveInput(1)
       }
     }
     slashTimer--
@@ -53,17 +53,17 @@ export default class Player extends Entity {
   }
 
   pushIfOccupied(dir) {
-    if (dir === 0 && this.game.gameMap.isOccupied(this.x, this.y+1)) {
-      return this.game.gameMap.pushTile(this.x, this.y+1, this.x, this.y+2)
-    }
-    if (dir === 1 && this.game.gameMap.isOccupied(this.x, this.y-1)) {
+    if (dir === 0 && this.game.gameMap.isOccupied(this.x, this.y-1)) {
       return this.game.gameMap.pushTile(this.x, this.y-1, this.x, this.y-2)
     }
-    if (dir === 2 && this.game.gameMap.isOccupied(this.x-1, this.y)) {
-      return this.game.gameMap.pushTile(this.x-1, this.y, this.x-2, this.y)
-    }
-    if (dir === 3 && this.game.gameMap.isOccupied(this.x+1, this.y)) {
+    if (dir === 1 && this.game.gameMap.isOccupied(this.x+1, this.y)) {
       return this.game.gameMap.pushTile(this.x+1, this.y, this.x+2, this.y)
+    }
+    if (dir === 2 && this.game.gameMap.isOccupied(this.x, this.y+1)) {
+      return this.game.gameMap.pushTile(this.x, this.y+1, this.x, this.y+2)
+    }
+    if (dir === 3 && this.game.gameMap.isOccupied(this.x-1, this.y)) {
+      return this.game.gameMap.pushTile(this.x-1, this.y, this.x-2, this.y)
     }
   }
 

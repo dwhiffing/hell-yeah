@@ -4,7 +4,7 @@ const bacon = ["Bacon ipsum dolor amet swine short ribs biltong, ham hock bresao
 
 const nonPlayers = [
   // [5, 5, [2, 2, 2, 2, 1, 1, 3, 3, 3, 3, 0, 0], bacon],
-  [6, 8, [2, 1, 3, 0], lorem],
+  [6, 8, [0, 1, 2, 3], lorem],
 ]
 
 export default playStateFactory({
