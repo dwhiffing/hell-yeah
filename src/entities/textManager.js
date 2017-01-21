@@ -7,16 +7,7 @@ const timing = 3
 const doWeirdThing = false
 
 let textToDisplay = ''
-let index = 0
-let gotoNextPage = true
-let lastWordIndex = []
-let textTimer = timing
-let fastMode = false
-let startIndex = 0
-let lettersPerUpdate = 1
-let doneBuffering = true
-
-let textObject, objectGroup
+let index, gotoNextPage, lastWordIndex, textTimer, fastMode, startIndex, lettersPerUpdate, doneBuffering, textObject, objectGroup
 
 export default class TextManager {
   constructor(game) {
@@ -24,6 +15,15 @@ export default class TextManager {
 
     doneBuffering = true
     this.finishedWithText = true
+    textToDisplay = ''
+    index = 0
+    gotoNextPage = true
+    lastWordIndex = []
+    textTimer = timing
+    fastMode = false
+    startIndex = 0
+    lettersPerUpdate = 1
+    doneBuffering = true
     this.onPress = this.onPress.bind(this)
 
     const y = this.game.height - boxHeight - rightBuffer
