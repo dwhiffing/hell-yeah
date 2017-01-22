@@ -6,6 +6,8 @@ window.Phaser = Phaser
 
 import BootState from './states/boot'
 import LoadState from './states/load'
+import MenuState from './states/menu'
+import CreditState from './states/credits'
 
 import SokobanState from './states/sokoban'
 import TriviaState from './states/trivia'
@@ -16,6 +18,8 @@ import StealthState from './states/stealth'
 
   game.state.add('boot', BootState)
   game.state.add('load', LoadState)
+  game.state.add('menu', MenuState)
+  game.state.add('credits', CreditState)
   game.state.add('sokoban', SokobanState)
   game.state.add('trivia', TriviaState)
   game.state.add('stealth', StealthState)
