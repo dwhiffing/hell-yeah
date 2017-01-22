@@ -14,7 +14,7 @@ export default class Player extends Entity {
   update(game) {
     super.update()
 
-    if (!this.game.textManager.finishedWithConvo) {
+    if (!this.game.textManager.finishedWithConvo || !this.game.playerCanMove) {
       return
     }
 
@@ -46,7 +46,6 @@ export default class Player extends Entity {
     if (this.dir === dir && this.game.allowPushing) {
       let pushedTile = this.pushIfOccupied(dir)
       if (pushedTile) {
-        this.moving = true
         return
       }
     }

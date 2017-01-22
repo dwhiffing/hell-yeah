@@ -15,6 +15,24 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
 
       this.opts = this.opts || {}
 
+      this.game.nextLevel = () => {
+        if (this.game.gameMap.levelIndex < 5) {
+          this.game.gameMap.levelIndex++
+          this.game.loadLevel()
+        }
+      }
+
+      this.game.previousLevel = () => {
+        if (this.game.gameMap.levelIndex > 1) {
+          this.game.gameMap.levelIndex--
+          this.game.loadLevel()
+        }
+      }
+
+      game.talk1Sound = game.add.audio('talk1')
+      game.talk2Sound = game.add.audio('talk2')
+      game.talk3Sound = game.add.audio('talk3')
+
       game.interface = new UserInterface(game)
 
       game.gameMap = new GameMap(game, tilemap, exit, this.opts.direction, numLevels, levelIndex)
@@ -24,6 +42,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY, game.gameMap.playerDir)
         game.nonPlayerManager = new NonPlayerManager(game)
         game.allowPushing = true
+        game.playerCanMove = true
         game.nonPlayerManager.createEntities(game.gameMap.entityPositions.map((e, i) => {
           const passedIn = entityData[tilemap][game.gameMap.levelIndex - 1][i]
           return {
