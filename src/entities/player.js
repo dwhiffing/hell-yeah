@@ -81,7 +81,7 @@ export default class Player extends Entity {
     let npc = this.game.nonPlayerManager.getNpc(...pos)
 
     if (npc) {
-      this.game.textManager.bufferConvo(npc.convo)
+      this.game.textManager.bufferConvo(npc.convo, npc.key)
       npc.setDirection(this.inverseDirection[this.dir])
     }
   }

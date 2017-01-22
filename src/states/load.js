@@ -11,6 +11,7 @@ export default {
     this.load.spritesheet('charon', 'images/charon.png', 116, 116)
     this.load.spritesheet('skull', 'images/skull.png', 116, 116)
     this.load.spritesheet('woman', 'images/woman.png', 116, 116)
+    this.load.spritesheet('portrait', 'images/faces.png', 400, 400)
 
     this.load.tilemap('sokoban', 'json/sokoban.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('sokoban_2', 'json/sokoban_2.json', null, Phaser.Tilemap.TILED_JSON)

@@ -1,8 +1,8 @@
 const boxHeight = 200
-const leftBuffer = 200
+const leftBuffer = 300
 const rightBuffer = 40
 const textBuffer = 30
-const timing = 3
+const timing = 2
 const doWeirdThing = false
 
 export default class TextManager {
@@ -29,10 +29,22 @@ export default class TextManager {
     this.textObject = this.game.add.text(leftBuffer + textBuffer, y + textBuffer - 10, this.textToDisplay, opts)
     this.textObject.fixedToCamera = true
 
+    this.portrait = this.game.add.sprite(leftBuffer - 120, y + 50, 'portrait')
+    this.portrait.anchor.x = 0.5
+    this.portrait.anchor.y = 0.5
+    this.portraitTiming = 0
+    this.portraitTimingMax = 2
+    this.portraitFrame = 0
+
     const choiceOpts = Object.assign({}, opts, { font: 'bold Slackey', fontSize: 30 })
 
-    this.choiceAText = this.game.add.text(leftBuffer + textBuffer, y + textBuffer + 100, 'choiceA', choiceOpts)
-    this.choiceBText = this.game.add.text(leftBuffer + textBuffer + 300, y + textBuffer + 100, 'choiceB', choiceOpts)
+    this.choiceAText = this.game.add.text(leftBuffer + textBuffer + 220, y + textBuffer + 120, 'choiceA', choiceOpts)
+    this.choiceBText = this.game.add.text(leftBuffer + textBuffer + 640, y + textBuffer + 120, 'choiceB', choiceOpts)
+    this.choiceAText.anchor.y = 0.5
+    this.choiceAText.anchor.x = 0.5
+    this.choiceBText.anchor.y = 0.5
+    this.choiceBText.anchor.x = 0.5
+
     this.choiceAText.fixedToCamera = true
     this.choiceBText.fixedToCamera = true
     this.game.interface.addLeft(this.toggleChoice.bind(this))
@@ -42,10 +54,12 @@ export default class TextManager {
     this.objectGroup.add(this.textObject)
     this.objectGroup.add(this.choiceAText)
     this.objectGroup.add(this.choiceBText)
+    this.objectGroup.add(this.portrait)
     this.objectGroup.alpha = 0
 
-    this.graphics.beginFill(0x111111)
-    this.graphics.drawRect(0, 0, this.game.width - leftBuffer - rightBuffer, boxHeight)
+    this.graphics.beginFill(0x112222)
+    this.graphics.lineStyle(8, 0xddffdd, 0.8)
+    this.graphics.drawRoundedRect(0, 0, this.game.width - leftBuffer - rightBuffer, boxHeight, 10)
     this.graphics.endFill()
 
     this.game.interface.zKey.onDown.add(this.onPress)
@@ -81,9 +95,9 @@ export default class TextManager {
       }
 
       if (this.textTimer > 0) {
-        this.textTimer -= this.fastMode ? 2 : 1
+        this.textTimer -= 1
       } else {
-        let lettersForUpdate = this.fastMode ? 2 : 1
+        let lettersForUpdate = this.fastMode ? 3 : 1
         this.index += lettersForUpdate
 
         let nextString
@@ -95,6 +109,13 @@ export default class TextManager {
 
         this.textObject.text = this.textToDisplay.slice(this.startIndex, this.index)
 
+        this.portraitTiming--
+        if (this.portraitTiming <= 0) {
+          this.portraitTiming = this.portraitTimingMax
+          this.portraitFrame = this.portraitFrame === 0 ? 1 : 0
+          this.portrait.frame = this.currentPortrait + this.portraitFrame
+        }
+
         const match = /\s/.exec(nextString)
         if (match) {
           this.lastWordIndex[1] = this.lastWordIndex[0]
@@ -105,22 +126,25 @@ export default class TextManager {
           this.finishedCurrentPage = true
         }
 
-        if (!this.fastMode) {
-          this.textTimer = timing
-        }
+        this.textTimer = this.fastMode ? timing-1 : timing
       }
     }
   }
 
-  bufferConvo(convo) {
+  bufferConvo(convo, key) {
     if (this.finishedWithConvo) {
       this.reset()
       this.convoIndex = 0
       this.convo = convo
+      this.currentPortrait = 4
+      if (key === 'skull') {
+        this.currentPortrait = 0
+      } else if (key === 'charon') {
+        this.currentPortrait = 2
+      }
       this.objectGroup.alpha = 1
       this.choiceAText.alpha = 0
       this.choiceBText.alpha = 0
-      console.log(this.convo)
       this.doNext()
     }
   }
@@ -137,21 +161,24 @@ export default class TextManager {
   }
 
   bufferChoice(choice) {
-    this.inChoice = true
-    this.textToDisplay = choice.text
-    this.finishedCurrentPage = false
     this.index = 0
-    this.choiceIndex = 0
-    this.choiceAText.fontSize = 50
-    this.choiceBText.fontSize = 30
-    this.choiceAText.fill = '#ffffff'
-    this.choiceBText.fill = '#999999'
     this.startIndex = 0
-    this.choiceAText.alpha = 1
-    this.choiceAText.text = choice.choiceA.text
-    this.choiceBText.text = choice.choiceB.text
-    this.choiceBText.alpha = 1
+    this.choiceIndex = 0
+    this.inChoice = true
+    this.finishedCurrentPage = false
     this.finishedWithConvo = false
+    this.textToDisplay = choice.text
+
+    this.choiceAText.fontSize = 50
+    this.choiceAText.alpha = 1
+    this.choiceAText.fill = '#ffffff'
+    this.choiceAText.text = choice.choiceA.text
+
+    this.choiceBText.fontSize = 30
+    this.choiceBText.alpha = 1
+    this.choiceBText.fill = '#999999'
+    this.choiceBText.text = choice.choiceB.text
+
   }
 
   doNext() {
@@ -181,7 +208,7 @@ export default class TextManager {
 
   onPress() {
     if (this.finishedCurrentPage) {
-      setTimeout(this.doNext.bind(this), 200)
+      setTimeout(this.doNext.bind(this), 100)
     } else if (this.gotoNextPage) {
       this.fastMode = true
     } else {

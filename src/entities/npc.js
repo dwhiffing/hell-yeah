@@ -6,6 +6,7 @@ export default class NonPlayer extends Entity {
     super(game, x, y, key)
     this.movements = [..._movements]
     this.queued = []
+    this.key = key
     this.mod = speedMod
     this.speed = tileSize/speedMod
     this.convo = convo
