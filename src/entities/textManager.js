@@ -11,8 +11,6 @@ export default class TextManager {
 
     this.onPress = this.onPress.bind(this)
 
-    this.reset()
-
     const y = this.game.height - boxHeight - rightBuffer
     const opts = {
       font: 'Slackey',
@@ -32,9 +30,14 @@ export default class TextManager {
     this.portrait = this.game.add.sprite(leftBuffer - 120, y + 50, 'portrait')
     this.portrait.anchor.x = 0.5
     this.portrait.anchor.y = 0.5
+    this.portrait.fixedToCamera = true
     this.portraitTiming = 0
     this.portraitTimingMax = 2
     this.portraitFrame = 0
+    this.soundTiming = 0
+    this.soundTimingMin = 10
+    this.soundTimingMax = 30
+    this.sounds = [game.talk1Sound,game.talk2Sound,game.talk3Sound]
 
     const choiceOpts = Object.assign({}, opts, { font: 'bold Slackey', fontSize: 30 })
 
@@ -64,6 +67,8 @@ export default class TextManager {
 
     this.game.interface.zKey.onDown.add(this.onPress)
     this.game.interface.spaceKey.onDown.add(this.onPress)
+
+    this.reset()
   }
 
   reset() {
@@ -74,7 +79,7 @@ export default class TextManager {
     this.index = 0
     this.convoIndex = 0
     this.choiceIndex = 0
-    this.gotoNextPage = false
+    this.gotoNextPage = true
     this.lastWordIndex = []
     this.textTimer = timing
     this.fastMode = false
@@ -84,7 +89,6 @@ export default class TextManager {
 
   update(game) {
     if (!this.finishedCurrentPage && this.gotoNextPage) {
-
       if (this.textObject._height > 159 && this.textObject.text != '') {
         this.textObject.text = this.textToDisplay.slice(this.startIndex, this.lastWordIndex[1]+1)
         this.startIndex = this.lastWordIndex[1]+1
@@ -116,6 +120,14 @@ export default class TextManager {
           this.portrait.frame = this.currentPortrait + this.portraitFrame
         }
 
+        this.soundTiming--
+        if (this.soundTiming <= 0) {
+          this.soundTiming = this.game.rnd.integerInRange(this.soundTimingMin, this.soundTimingMax)
+          const sound = this.sounds[this.game.rnd.integerInRange(0, 2)]
+          sound.play()
+        }
+
+
         const match = /\s/.exec(nextString)
         if (match) {
           this.lastWordIndex[1] = this.lastWordIndex[0]
@@ -131,9 +143,10 @@ export default class TextManager {
     }
   }
 
-  bufferConvo(convo, key) {
+  bufferConvo(convo, key, callback) {
     if (this.finishedWithConvo) {
       this.reset()
+      this.callback = callback
       this.convoIndex = 0
       this.convo = convo
       this.currentPortrait = 4
@@ -185,17 +198,26 @@ export default class TextManager {
     if (this.convoIndex >= this.convo.length) {
       this.finishedWithConvo = true
       this.reset()
+      this.callback && this.callback()
       this.objectGroup.alpha = 0
     } else {
       if (this.inChoice) {
-        const response = this.convo[this.convoIndex][this.choiceIndex === 0 ? 'choiceA' : 'choiceB'].response
-        this.bufferText(response)
+        const choiceObject = this.convo[this.convoIndex][this.choiceIndex === 0 ? 'choiceA' : 'choiceB']
+        this.bufferText(choiceObject.response)
+        if (choiceObject.value === 2) {
+          this.callback = () => {
+            this.callback = null
+            this.game.loadLevel()
+          }
+        }
+        this.soundTiming = 0
         this.inChoice = false
         this.convoIndex++
         this.choiceAText.alpha = 0
         this.choiceBText.alpha = 0
       } else {
         let nextPartOfConvo = this.convo[this.convoIndex]
+        this.soundTiming = 0
         if (typeof nextPartOfConvo === 'string') {
           this.bufferText(nextPartOfConvo)
           this.convoIndex++
