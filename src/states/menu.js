@@ -4,6 +4,11 @@ export default {
   create(game) {
     this.game = game
     game.stage.backgroundColor = '#000000'
+
+    game.bgMusic = game.add.audio('music')
+    game.bgMusic.loop = true
+    this.game.bgMusic.play()
+
     // let image = this.game.add.image(0,0,'title')
     // image.width = this.game.width
     // image.height = this.game.height

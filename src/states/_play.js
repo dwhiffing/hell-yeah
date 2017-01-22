@@ -33,6 +33,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
       game.talk2Sound = game.add.audio('talk2')
       game.talk3Sound = game.add.audio('talk3')
       game.rockSound = game.add.audio('push')
+      game.wewSound = game.add.audio('wew')
       game.footSound = game.add.audio('foot1', 0.1)
       game.foot2Sound = game.add.audio('foot2', 0.3)
 

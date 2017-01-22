@@ -9,6 +9,8 @@ export default {
     this.load.audio('push', 'audio/pushRock.mp3')
     this.load.audio('foot2', 'audio/footstep2.mp3')
     this.load.audio('foot1', 'audio/footstep.mp3')
+    this.load.audio('wew', 'audio/wew.mp3')
+    this.load.audio('music', 'audio/music.mp3')
 
     this.load.spritesheet('tile', 'images/tile.png', 116, 116)
     this.load.spritesheet('triggers', 'images/triggers.png', 116, 116)
@@ -34,6 +36,6 @@ export default {
   },
 
   onLoadComplete() {
-    this.game.state.start('trivia', true, false)
+    this.game.state.start('menu', true, false)
   }
 }

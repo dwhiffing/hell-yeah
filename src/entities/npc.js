@@ -84,6 +84,7 @@ export default class NonPlayer extends Entity {
       }
       this.movingToPlayer = true
       this.game.playerCanMove = false
+      this.game.wewSound.play()
       setTimeout(() => {
         this.wait = false
         this.moveTo(tilesToWalk)
