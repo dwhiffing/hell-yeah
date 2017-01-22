@@ -83,7 +83,7 @@ export default class GameMap {
 
   pushTile(srcX, srcY, destX, destY) {
     if (this.canWalk(destX, destY)) {
-      if (this.getTile(destX, destY) || !this.canWalk(destX, destY)) {
+      if (this.getTile(destX, destY) || !this.game.canWalk(destX, destY)) {
         return 'blocked'
       } else {
         this.game.rockSound.play()

@@ -44,10 +44,16 @@ export default class Player extends Entity {
   }
 
   takeMoveInput(dir) {
-    if (this.dir === dir && this.game.allowPushing) {
-      let pushedTile = this.pushIfOccupied(dir)
-      if (pushedTile) {
-        return
+    if (this.dir === dir) {
+      this.slash()
+      if (this.game.allowPushing) {
+        let pushedTile = this.pushIfOccupied(dir)
+        if (pushedTile === 'entity') {
+          this.slash()
+        }
+        if (pushedTile) {
+          return
+        }
       }
     }
     this.doMove(dir)
@@ -78,8 +84,7 @@ export default class Player extends Entity {
     let npc = this.game.nonPlayerManager.getNpc(...pos)
 
     if (npc) {
-      this.game.textManager.bufferConvo(npc.convo, npc.key)
-      npc.setDirection(this.inverseDirection[this.dir])
+      npc.talkTo(this.dir)
     }
   }
 

@@ -46,13 +46,13 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         }
       }
 
-      game.talk1Sound = game.add.audio('talk1')
-      game.talk2Sound = game.add.audio('talk2')
-      game.talk3Sound = game.add.audio('talk3')
+      game.talk1Sound = game.add.audio('talk1', 0.5)
+      game.talk2Sound = game.add.audio('talk2', 0.5)
+      game.talk3Sound = game.add.audio('talk3', 0.5)
       game.rockSound = game.add.audio('push')
       game.wewSound = game.add.audio('wew')
-      game.footSound = game.add.audio('foot1', 0.1)
-      game.foot2Sound = game.add.audio('foot2', 0.3)
+      game.footSound = game.add.audio('foot1', 0.3)
+      game.foot2Sound = game.add.audio('foot2', 0.5)
 
       game.gameMap = new GameMap(game, tilemap, exit, this.opts.direction, numLevels, levelIndex)
 
@@ -82,7 +82,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
 
         game.interface.createUI()
 
-        game.joystick = new Joystick(game, 200, this.game.height - 200)
+        game.joystick = new Joystick(game, 150, this.game.height - 150)
         game.joystick.inputEnable()
 
         game.textManager = new TextManager(game)

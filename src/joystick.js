@@ -8,8 +8,10 @@ class Joystick {
 
     // this.imageGroup.push(this.game.add.sprite(0, 0, 'compass'))
     // this.imageGroup.push(this.game.add.sprite(0, 0, 'touch_segment'))
-    this.imageGroup.push(this.game.add.sprite(x, y, 'joyBase'))
-    this.imageGroup.push(this.game.add.sprite(x, y, 'joyTip'))
+    this.tip = this.game.add.sprite(x, y, 'joyTip')
+    this.base = this.game.add.sprite(x, y, 'joyBase')
+    this.imageGroup.push(this.base)
+    this.imageGroup.push(this.tip)
     this.imageGroup.forEach(function (e) {
       e.bringToTop()
       e.anchor.set(0.5)
@@ -30,7 +32,16 @@ class Joystick {
     }
   }
 
-  preUpdate() { }
+  preUpdate() {
+    this.fadeOut()
+  }
+
+  fadeOut() {
+    if (this.base.alpha > 0.1) {
+      this.base.alpha -= 0.03
+      this.tip.alpha -= 0.03
+    }
+  }
 
   inputEnable() {
     this.input.onDown.add(this.createCompass.bind(this))
@@ -44,9 +55,10 @@ class Joystick {
 
   createCompass(){
     initialPoint = this.input.activePointer.position.clone()
-
     this.isClick = true
-    setTimeout(() => this.isClick = false, 500)
+    setTimeout(() => this.isClick = false, 150)
+    this.base.alpha = 1
+    this.tip.alpha = 1
 
     if (initialPoint.y < 100 || initialPoint.y > this.game.height - 60) {
       return
@@ -65,8 +77,9 @@ class Joystick {
     this.cursors.down = false
     this.cursors.left = false
     this.cursors.right = false
+    var d = initialPoint.distance(this.input.activePointer.position)
 
-    if (this.isClick) {
+    if (this.isClick && d < 5) {
       this.pressed = true
       if (this.onPress) {
         this.onPress()
@@ -82,7 +95,7 @@ class Joystick {
     this.speed.x = 0
     this.speed.y = 0
 
-    this.preUpdate = () => {}
+    this.preUpdate = this.fadeOut
   }
 
   setDirection() {
@@ -115,6 +128,17 @@ class Joystick {
     this.cursors.down = (deltaY > threshold)
     this.cursors.left = (deltaX < -threshold)
     this.cursors.right = (deltaX > threshold)
+
+    if (this.cursors.left && this.onLeft && !this.justLeft) {
+      this.justLeft = true
+      setTimeout(() => this.justLeft = false, 300)
+      this.onLeft()
+    }
+    if (this.cursors.right && this.onRight && !this.justRight) {
+      this.justRight = true
+      setTimeout(() => this.justRight = false, 300)
+      this.onRight()
+    }
 
     this.imageGroup.forEach(function(e,i){
       e.cameraOffset.x = initialPoint.x+(deltaX)*i/3

@@ -27,10 +27,13 @@ export default class Interface {
     this.addRight = (fn) => {
       cursors.right.onDown.add(fn)
       dKey.onDown.add(fn)
+      game.joystick.onRight = fn
     }
+    
     this.addLeft = (fn) => {
       cursors.left.onDown.add(fn)
       aKey.onDown.add(fn)
+      game.joystick.onLeft = fn
     }
 
     this.addRestart = (fn) => {
@@ -44,8 +47,8 @@ export default class Interface {
     this.spaceKey = spaceKey
     this.zKey = zKey
 
-    zeroKey.onDown.add(this.game.nextLevel)
-    nineKey.onDown.add(this.game.previousLevel)
+    zeroKey.onDown.add(game.nextLevel)
+    nineKey.onDown.add(game.previousLevel)
   }
 
   createUI() {

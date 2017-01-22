@@ -25,6 +25,7 @@ export default {
     this.load.image('full', 'images/fullscreen.png')
     this.load.image('refresh', 'images/reload.png')
     this.load.image('blank', 'images/blank.png')
+    this.load.image('title', 'images/title.png')
     this.load.image('joyBase', 'images/joy-base.png')
     this.load.image('joyTip', 'images/joy-tip.png')
 

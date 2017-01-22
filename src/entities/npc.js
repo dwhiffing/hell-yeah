@@ -10,6 +10,7 @@ export default class NonPlayer extends Entity {
     this.speed = speed
     this.convo = convo
     this.wait = false
+    this.spoken = false
     this.dir = direction
     this.setDirection()
     this.moveTo()
@@ -54,6 +55,16 @@ export default class NonPlayer extends Entity {
       return true
     }
     return !this.checkLineOfSight()
+  }
+
+  talkTo(dir) {
+    this.game.textManager.bufferConvo(this.convo, this.key)
+    this.setDirection(this.inverseDirection[dir])
+    if (!this.spoken) {
+      let lastPartConvo = this.convo[this.convo.length - 1]
+      this.convo = [lastPartConvo]
+      this.spoken = true
+    }
   }
 
   checkLineOfSight() {

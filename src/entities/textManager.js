@@ -50,8 +50,8 @@ export default class TextManager {
 
     this.choiceAText.fixedToCamera = true
     this.choiceBText.fixedToCamera = true
-    this.game.interface.addLeft(this.toggleChoice.bind(this))
-    this.game.interface.addRight(this.toggleChoice.bind(this))
+    this.game.interface.addLeft(() => this.toggleChoice(-1))
+    this.game.interface.addRight(() => this.toggleChoice(1))
 
     this.objectGroup.add(this.graphics)
     this.objectGroup.add(this.textObject)
@@ -102,7 +102,7 @@ export default class TextManager {
       if (this.textTimer > 0) {
         this.textTimer -= 1
       } else {
-        let lettersForUpdate = this.fastMode ? 3 : 1
+        let lettersForUpdate = this.fastMode ? 4 : 1
         this.index += lettersForUpdate
 
         let nextString
@@ -147,6 +147,8 @@ export default class TextManager {
   bufferConvo(convo, key, callback) {
     if (this.finishedWithConvo) {
       this.reset()
+      this.canPress = false
+      setTimeout(() => this.canPress = true, 500)
       this.callback = callback
       this.convoIndex = 0
       this.convo = convo
@@ -156,9 +158,10 @@ export default class TextManager {
       } else if (key === 'charon') {
         this.currentPortrait = 2
       }
-      this.objectGroup.alpha = 1
       this.choiceAText.alpha = 0
       this.choiceBText.alpha = 0
+      this.tween = this.game.add.tween(this.objectGroup)
+      this.tween.to({ alpha: 1 }, 500).start()
       this.doNext()
     }
   }
@@ -192,23 +195,28 @@ export default class TextManager {
     this.choiceBText.alpha = 1
     this.choiceBText.fill = '#999999'
     this.choiceBText.text = choice.choiceB.text
-
   }
 
   doNext() {
     if (this.convoIndex >= this.convo.length) {
-      this.finishedWithConvo = true
-      this.reset()
-      this.callback && this.callback()
-      this.objectGroup.alpha = 0
+      this.canPress = false
+      this.tween = this.game.add.tween(this.objectGroup)
+      this.tween.onComplete.add(() => {
+        this.finishedWithConvo = true
+        this.reset()
+        this.callback && this.callback()
+      })
+      this.tween.to({ alpha: 0 }, 500).delay(500).start()
     } else {
       if (this.inChoice) {
         const choiceObject = this.convo[this.convoIndex][this.choiceIndex === 0 ? 'choiceA' : 'choiceB']
         this.bufferText(choiceObject.response)
-        if (choiceObject.value === 2) {
+        if (choiceObject.value === choiceObject.correctChoice || 2) {
           this.callback = () => {
-            this.callback = null
-            this.game.loadLevel()
+            if (this.game.killOnWrongChoice) {
+              this.callback = null
+              this.game.loadLevel()
+            }
           }
         }
         this.soundTiming = 0
@@ -219,6 +227,7 @@ export default class TextManager {
       } else {
         let nextPartOfConvo = this.convo[this.convoIndex]
         this.soundTiming = 0
+
         if (typeof nextPartOfConvo === 'string') {
           this.bufferText(nextPartOfConvo)
           this.convoIndex++
@@ -230,6 +239,9 @@ export default class TextManager {
   }
 
   onPress() {
+    if (!this.canPress) {
+      return
+    }
     if (this.finishedCurrentPage) {
       setTimeout(this.doNext.bind(this), 100)
     } else if (this.gotoNextPage) {
@@ -240,14 +252,15 @@ export default class TextManager {
     }
   }
 
-  toggleChoice() {
-    this.choiceIndex = this.choiceIndex === 0 ? 1 : 0
-    if (this.choiceIndex === 0) {
+  toggleChoice(index) {
+    if (index === -1) {
+      this.choiceIndex = 0
       this.choiceAText.fontSize = 50
       this.choiceBText.fontSize = 30
       this.choiceAText.fill = '#ffffff'
       this.choiceBText.fill = '#999999'
     } else {
+      this.choiceIndex = 1
       this.choiceAText.fontSize = 30
       this.choiceBText.fontSize = 50
       this.choiceAText.fill = '#999999'

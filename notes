@@ -1,39 +1,18 @@
-sokoban
-  3 levels
-    trivial level
-    moderate level
-    super hard level that you dont beat
-  move boxes onto switches to open door
-  camera doesnt move for sokoban
-  camera starts moving at end to reveal game is more than sokoban
+finalize levels
 
-papers please
-  entities walk up to player and talk to them
-  make choice between into pit or salvation
-  if you make the wrong choice you start over?
+move into entities to talk to them
+after talking to enemy, should stay on last thing said
+bring back turning when moving in new direction before moving
+blocks should animate when pushed
+only kill on wrong choice in trivia
 
-concentration-shooter
-  Bodies show color at top, then move in irratic patterns
-  you have to pick the matching ones to continue
+tap on choices to pick them
+add flickering aura light overlay
+add more sounds
+  sound for getting right choice in trivia
+  sound for getting wrong choice in trivia
 
-boardgame-trivia
-  Move around trivia board
-  different tiles have different question types?
-  answer enough questions to finish the game
+screen shake on wrong choice in trivia
 
-stealth maze
-  move through open area with pokemon trainer
-
-
-
-systems
-  moving tiles (sokoban)
-  shooting grappling hook?
-  text system (everything)
-    choice dialog
-    character portraits
-    text progression
-
-  entities that have specific behaviours
-    follow predefined path
-    rotate in spot
+title graphic?
+win screen?
