@@ -2,12 +2,12 @@ import Entity from './entity'
 const tileSize = 116
 
 export default class NonPlayer extends Entity {
-  constructor(game, x=0, y=0, key='man', direction=0, _movements=[], convo, loop=true) {
+  constructor(game, x=0, y=0, key='man', direction=0, _movements=[], convo, speedMod=4) {
     super(game, x, y, key)
     this.movements = [..._movements]
     this.queued = []
-    this.mod = 4
-    this.speed = tileSize/this.mod
+    this.mod = speedMod
+    this.speed = tileSize/speedMod
     this.convo = convo
     this.wait = false
     this.dir = direction

@@ -3,8 +3,8 @@ export default {
     [
       {
         movement: [],
-        direction: 1,
-        key: 'man',
+        direction: 2,
+        key: 'skull',
         convo: [
           "Hey you!",
           "Yeah, you.....",
@@ -19,12 +19,60 @@ export default {
       }
     ], [{
       movement: [],
-      key: 'woman',
+      key: 'charon',
       direction: 1,
       convo: [
         "...................................................................................................",
         "Oh.",
         "I'm busy over here, could you get back to 'cleaning'?",
+      ],
+    }]
+  ],
+  stealth: [
+    [
+      {
+        movement: [],
+        speed: 2,
+        direction: 1,
+        key: 'skull',
+        convo: [
+          "Hey you!",
+        ],
+      }, {
+        movement: [1, 1, 1, 1, 2, 3, 3, 3, 3],
+        speed: 4,
+        direction: 2,
+        key: 'charon',
+        convo: [
+          "Hey you!",
+        ],
+      }, {
+        movement: [0, 1, 2, 3],
+        speed: 8,
+        direction: 2,
+        key: 'woman',
+        convo: [
+          "Hey you!",
+        ],
+      },
+    ]
+  ],
+  trivia: [
+    [
+      {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Hey you!",
+        ],
+      }
+    ], [{
+      movement: [],
+      key: 'charon',
+      direction: 1,
+      convo: [
+        "Oh.",
       ],
     }]
   ]

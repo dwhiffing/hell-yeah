@@ -30,6 +30,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
             x: e.x,
             y: e.y,
             key: passedIn ? passedIn.key : 'man',
+            speed: passedIn ? passedIn.speed : undefined,
             movement: passedIn ? passedIn.movement : [],
             convo: passedIn ? passedIn.convo : [],
             direction: passedIn ? passedIn.direction : 0,
@@ -37,7 +38,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         }))
 
         game.textManager = new TextManager(game)
-        
+
         game.camera.x = 0
         game.camera.y = 0
         game.camera.follow(game.player.sprite)
