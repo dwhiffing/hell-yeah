@@ -58,6 +58,7 @@ export default class NonPlayer extends Entity {
   }
 
   talkTo(dir) {
+    this.game.talkSound.play()
     this.game.textManager.bufferConvo(this.convo, this.key)
     this.setDirection(this.inverseDirection[dir])
     if (!this.spoken) {
@@ -95,7 +96,7 @@ export default class NonPlayer extends Entity {
       }
       this.movingToPlayer = true
       this.game.playerCanMove = false
-      this.game.wewSound.play()
+      this.game.spottedSound.play()
       setTimeout(() => {
         this.wait = false
         this.moveTo(tilesToWalk)

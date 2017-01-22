@@ -1,6 +1,6 @@
 const boxHeight = 200
-const leftBuffer = 300
-const rightBuffer = 40
+const leftBuffer = 370
+const rightBuffer = 50
 const textBuffer = 30
 const timing = 2
 const doWeirdThing = false
@@ -11,7 +11,7 @@ export default class TextManager {
 
     this.onPress = this.onPress.bind(this)
 
-    const y = this.game.height - boxHeight - rightBuffer
+    const y = this.game.height - boxHeight - rightBuffer - 30
     const opts = {
       font: 'Slackey',
       fontSize: 42,
@@ -27,7 +27,7 @@ export default class TextManager {
     this.textObject = this.game.add.text(leftBuffer + textBuffer, y + textBuffer - 10, this.textToDisplay, opts)
     this.textObject.fixedToCamera = true
 
-    this.portrait = this.game.add.sprite(leftBuffer - 120, y + 50, 'portrait')
+    this.portrait = this.game.add.sprite(leftBuffer - 180, y + 50, 'portrait')
     this.portrait.anchor.x = 0.5
     this.portrait.anchor.y = 0.5
     this.portrait.fixedToCamera = true
@@ -35,7 +35,7 @@ export default class TextManager {
     this.portraitTimingMax = 2
     this.portraitFrame = 0
     this.soundTiming = 0
-    this.soundTimingMin = 10
+    this.soundTimingMin = 15
     this.soundTimingMax = 30
     this.sounds = [game.talk1Sound,game.talk2Sound,game.talk3Sound]
 
@@ -65,7 +65,6 @@ export default class TextManager {
     this.graphics.drawRoundedRect(0, 0, this.game.width - leftBuffer - rightBuffer, boxHeight, 10)
     this.graphics.endFill()
 
-    this.game.interface.zKey.onDown.add(this.onPress)
     this.game.interface.spaceKey.onDown.add(this.onPress)
     this.game.interface.onPri(this.onPress)
 
@@ -102,7 +101,7 @@ export default class TextManager {
       if (this.textTimer > 0) {
         this.textTimer -= 1
       } else {
-        let lettersForUpdate = this.fastMode ? 4 : 1
+        let lettersForUpdate = this.fastMode ? 5 : 1
         this.index += lettersForUpdate
 
         let nextString
@@ -202,9 +201,12 @@ export default class TextManager {
       this.canPress = false
       this.tween = this.game.add.tween(this.objectGroup)
       this.tween.onComplete.add(() => {
-        this.finishedWithConvo = true
-        this.reset()
-        this.callback && this.callback()
+        setTimeout(() => {
+          this.finishedWithConvo = true
+          this.reset()
+          this.canPress = false
+          this.callback && this.callback()
+        }, 300)
       })
       this.tween.to({ alpha: 0 }, 500).delay(500).start()
     } else {
@@ -245,7 +247,10 @@ export default class TextManager {
     if (this.finishedCurrentPage) {
       setTimeout(this.doNext.bind(this), 100)
     } else if (this.gotoNextPage) {
-      this.fastMode = true
+      if (!this.fastMode) {
+        this.fastMode = true
+        this.game.skipSound.play()
+      }
     } else {
       this.textObject.text = ''
       this.gotoNextPage = true

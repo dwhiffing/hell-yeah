@@ -3,6 +3,7 @@ import UserInterface from '../entities/interface'
 import Player from '../entities/player'
 import TextManager from '../entities/textManager'
 import NonPlayerManager from '../entities/nonPlayerManager'
+import LightManager from '../entities/lightManager'
 import entityData from '../entityData'
 import Joystick from '../joystick'
 
@@ -17,7 +18,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
       this.opts = this.opts || {}
 
       this.game.nextLevel = () => {
-        if (this.game.gameMap.levelIndex < 5) {
+        if (this.game.gameMap.levelIndex < 3) {
           this.game.gameMap.levelIndex++
           this.game.loadLevel()
         } else {
@@ -25,7 +26,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
           if (this.game.state.current === 'sokoban') {
             next = 'stealth'
           } else if (this.game.state.current === 'trivia') {
-            return
+            next = 'win'
           }
           this.game.state.start(next, true, false)
         }
@@ -46,13 +47,17 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         }
       }
 
+      game.talkSound = game.add.audio('talk', 0.5)
       game.talk1Sound = game.add.audio('talk1', 0.5)
       game.talk2Sound = game.add.audio('talk2', 0.5)
       game.talk3Sound = game.add.audio('talk3', 0.5)
+      game.talk3Sound = game.add.audio('talk3', 0.5)
+      game.skipSound = game.add.audio('skip', 0.1)
       game.rockSound = game.add.audio('push')
-      game.wewSound = game.add.audio('wew')
-      game.footSound = game.add.audio('foot1', 0.3)
-      game.foot2Sound = game.add.audio('foot2', 0.5)
+      game.spottedSound = game.add.audio('spotted')
+      game.spottedSound = game.add.audio('spotted')
+      game.footSound = game.add.audio('foot1', 0.2)
+      game.foot2Sound = game.add.audio('foot2', 0.3)
 
       game.gameMap = new GameMap(game, tilemap, exit, this.opts.direction, numLevels, levelIndex)
 
@@ -64,6 +69,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
 
         game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY, game.gameMap.playerDir)
         game.nonPlayerManager = new NonPlayerManager(game)
+        game.lightManager = new LightManager(game)
         game.allowPushing = true
         game.playerCanMove = true
 
@@ -84,6 +90,10 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
 
         game.joystick = new Joystick(game, 150, this.game.height - 150)
         game.joystick.inputEnable()
+        game.joystick.onPress = () => {
+          game.interface.onPrimary && game.interface.onPrimary()
+          game.interface.otherBind && game.interface.otherBind()
+        }
 
         game.textManager = new TextManager(game)
 

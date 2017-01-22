@@ -5,6 +5,11 @@ export default class Interface {
   constructor(game) {
     this.game = game
 
+
+
+    this.game.sound.mute = true
+
+
     cursors = game.input.keyboard.createCursorKeys()
     wKey = game.input.keyboard.addKey(Phaser.Keyboard.W)
     aKey = game.input.keyboard.addKey(Phaser.Keyboard.A)
@@ -22,6 +27,10 @@ export default class Interface {
     game.leftPressed = () => cursors.left.isDown || aKey.isDown || game.joystick.cursors.left
     game.rightPressed = () => cursors.right.isDown || dKey.isDown || game.joystick.cursors.right
     game.priPressed = () => spaceKey.justDown || zKey.justDown || game.joystick.pressed
+    game.priBind = (callback) => {
+      spaceKey.onDown.add(callback)
+      this.otherBind = callback
+    }
     game.priDown = () => spaceKey.isDown || zKey.isDown
 
     this.addRight = (fn) => {
@@ -29,7 +38,7 @@ export default class Interface {
       dKey.onDown.add(fn)
       game.joystick.onRight = fn
     }
-    
+
     this.addLeft = (fn) => {
       cursors.left.onDown.add(fn)
       aKey.onDown.add(fn)
@@ -41,7 +50,7 @@ export default class Interface {
     }
 
     this.onPri = (fn) => {
-      game.joystick.onPress = fn
+      this.onPrimary = fn
     }
 
     this.spaceKey = spaceKey

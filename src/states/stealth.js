@@ -10,7 +10,7 @@ const nonPlayers = [
 export default playStateFactory({
   tilemap: 'stealth',
   exit: 'trivia',
-  numLevels: 5,
+  numLevels: 3,
   levelIndex: 1,
   create: (game) => {
     game.nonPlayerManager.createEntities(nonPlayers)

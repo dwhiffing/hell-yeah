@@ -3,13 +3,11 @@ export default {
     this.game = game
     game.stage.backgroundColor = '#000000'
 
-    game.bgMusic = game.add.audio('music', 0.2)
-    game.bgMusic.loop = true
-    this.game.bgMusic.play()
-
     let image = this.game.add.image(0,0,'title')
     image.width = this.game.width
     image.height = this.game.height
+    let text3 = game.add.text(this.game.width/2, this.game.height/2, "YOU WIN!!!!", { font: "100px Slackey", fill: "#fff" })
+    text3.anchor.setTo(0.5)
 
     let btn = game.add.button(70, this.game.height-200, 'blank', () => this.start(0))
     let text = game.add.text(0, 0, "Start", { font: "50px Slackey", fill: "#fff" })

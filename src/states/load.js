@@ -9,7 +9,9 @@ export default {
     this.load.audio('push', 'audio/pushRock.mp3')
     this.load.audio('foot2', 'audio/footstep2.mp3')
     this.load.audio('foot1', 'audio/footstep.mp3')
-    this.load.audio('wew', 'audio/wew.mp3')
+    this.load.audio('spotted', 'audio/critical_3.mp3')
+    this.load.audio('talk', 'audio/wew.mp3')
+    this.load.audio('skip', 'audio/swipe.mp3')
     this.load.audio('music', 'audio/music.mp3')
 
     this.load.spritesheet('mute', 'images/mute.png', 16, 20)
@@ -32,14 +34,12 @@ export default {
     this.load.tilemap('sokoban', 'json/sokoban.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('sokoban_2', 'json/sokoban_2.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('sokoban_3', 'json/sokoban_3.json', null, Phaser.Tilemap.TILED_JSON)
-    this.load.tilemap('sokoban_4', 'json/sokoban_4.json', null, Phaser.Tilemap.TILED_JSON)
-    this.load.tilemap('sokoban_5', 'json/sokoban_5.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('stealth', 'json/stealth.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('stealth_2', 'json/stealth_2.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('stealth_3', 'json/stealth_3.json', null, Phaser.Tilemap.TILED_JSON)
-    this.load.tilemap('stealth_4', 'json/stealth_4.json', null, Phaser.Tilemap.TILED_JSON)
-    this.load.tilemap('stealth_5', 'json/stealth_5.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('trivia', 'json/trivia.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('trivia_2', 'json/trivia_2.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('trivia_3', 'json/trivia_3.json', null, Phaser.Tilemap.TILED_JSON)
   },
 
   onLoadComplete() {

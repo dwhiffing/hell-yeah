@@ -37,7 +37,7 @@ class Joystick {
   }
 
   fadeOut() {
-    if (this.base.alpha > 0.1) {
+    if (this.base.alpha > 0.2) {
       this.base.alpha -= 0.03
       this.tip.alpha -= 0.03
     }
@@ -57,7 +57,7 @@ class Joystick {
     initialPoint = this.input.activePointer.position.clone()
     this.isClick = true
     setTimeout(() => this.isClick = false, 150)
-    this.base.alpha = 1
+    this.base.alpha = 0.6
     this.tip.alpha = 1
 
     if (initialPoint.y < 100 || initialPoint.y > this.game.height - 60) {
@@ -77,19 +77,23 @@ class Joystick {
     this.cursors.down = false
     this.cursors.left = false
     this.cursors.right = false
-    var d = initialPoint.distance(this.input.activePointer.position)
 
-    if (this.isClick && d < 5) {
-      this.pressed = true
-      if (this.onPress) {
-        this.onPress()
+    if (initialPoint) {
+      var d = initialPoint.distance(this.input.activePointer.position)
+      if (this.isClick && d < 5) {
+        this.pressed = true
+        if (this.onPress) {
+          this.onPress()
+        }
+        setTimeout(() => this.pressed = false, 100)
       }
-      setTimeout(() => this.pressed = false, 100)
     }
 
     this.imageGroup.forEach(function (e) {
-      e.cameraOffset.x = initialPoint.x
-      e.cameraOffset.y = initialPoint.y
+      if (initialPoint) {
+        e.cameraOffset.x = initialPoint.x
+        e.cameraOffset.y = initialPoint.y
+      }
     }, this)
 
     this.speed.x = 0
@@ -141,8 +145,10 @@ class Joystick {
     }
 
     this.imageGroup.forEach(function(e,i){
-      e.cameraOffset.x = initialPoint.x+(deltaX)*i/3
-      e.cameraOffset.y = initialPoint.y+(deltaY)*i/3
+      if (initialPoint) {
+        e.cameraOffset.x = initialPoint.x+(deltaX)*i/3
+        e.cameraOffset.y = initialPoint.y+(deltaY)*i/3
+      }
     }, this)
   }
 }

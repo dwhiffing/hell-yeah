@@ -6,7 +6,7 @@ const boneIndex = 28
 export default playStateFactory({
   tilemap: 'sokoban',
   exit: 'bridge',
-  numLevels: 5,
+  numLevels: 3,
   levelIndex: 1,
   create: function(game) {
   },

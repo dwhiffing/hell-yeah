@@ -1,6 +1,6 @@
 export default {
   sokoban: [
-    [
+    [// LEVEL ONE --------------------------------------
       {
         movement: [],
         direction: 2,
@@ -21,21 +21,76 @@ export default {
           },
         ],
       }
-    ], [{
-      movement: [],
-      key: 'charon',
-      direction: 1,
-      convo: [
-        "...................................................................................",
-        "Oh.",
-        "I'm busy over here, could you get back to 'cleaning'?",
-      ],
-    }]
+    ], [// LEVEL TWO --------------------------------------[
+      {
+        movement: [],
+        key: 'charon',
+        direction: 1,
+        convo: [
+          "...................................................................................",
+          "Oh.",
+          "I'm busy over here, could you get back to 'cleaning'?",
+        ],
+      }
+    ], [ // LEVEL THREE -------------------------------------- [
+      {
+        movement: [],
+        key: 'charon',
+        direction: 1,
+        convo: [
+          "...................................................................................",
+          "Oh.",
+          "I'm busy over here, could you get back to 'cleaning'?",
+        ],
+      }
+    ],
   ],
   stealth: [
-    [],
-    [],
-    [
+    [// LEVEL ONE --------------------------------------
+      {
+        movement: [3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+        speed: 1000,
+        direction: 3,
+        key: 'skull',
+        convo: [
+          "Hey you!",
+        ],
+      }, {
+        movement: [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3],
+        speed: 1000,
+        direction: 1,
+        key: 'skull',
+        convo: [
+          "Hey you!",
+        ],
+      }
+    ], [// LEVEL TWO --------------------------------------
+      {
+        movement: [0, 1],
+        speed: 1000,
+        direction: 1,
+        key: 'skull',
+        convo: [
+          "Hey you!",
+        ],
+      },{
+        movement: [3, 2],
+        speed: 1000,
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Hey you!",
+        ],
+      },{
+        movement: [0, 1, 3],
+        speed: 1000,
+        direction: 3,
+        key: 'skull',
+        convo: [
+          "Hey you!",
+        ],
+      }
+    ], [// LEVEL THREE --------------------------------------
       {
         movement: [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0],
         speed: 1000,
@@ -69,12 +124,10 @@ export default {
           "Hey you!",
         ],
       },
-    ],
-    [],
-    [],
+    ]
   ],
   trivia: [
-    [
+    [// LEVEL ONE --------------------------------------
       {
         movement: [],
         direction: 2,
@@ -88,7 +141,34 @@ export default {
             choiceB: { text: 'That', value: 2, response: 'Wrong!' }
           },
         ],
+      }, {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Riddle me this!",
+          "This or that?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
+        ],
+      }, {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Riddle me this!",
+          "If you could do anything at all would you do this thing or that thing?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
+        ],
       },
+    ], [// LEVEL TWO --------------------------------------
       {
         movement: [],
         direction: 2,
@@ -102,8 +182,61 @@ export default {
             choiceB: { text: 'That', value: 2, response: 'Wrong!' }
           },
         ],
+      }, {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Riddle me this!",
+          "This or that?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
+        ],
+      }, {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Riddle me this!",
+          "If you could do anything at all would you do this thing or that thing?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
+        ],
       },
+    ], [// LEVEL THREE --------------------------------------
       {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Riddle me this!",
+          "This or that?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
+        ],
+      }, {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Riddle me this!",
+          "This or that?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
+        ],
+      }, {
         movement: [],
         direction: 2,
         key: 'skull',

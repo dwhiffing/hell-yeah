@@ -42,7 +42,6 @@ export default class Entity {
       this.tween.onComplete.add(this.finishTween.bind(this))
       this.tween.to({ x: this.x * tileSize + tileSize/2, y: this.y * tileSize }, this.speed).start()
     } else {
-      this.setDirection()
       this.postMove()
       this.moving = true
       setTimeout(() => {
@@ -55,9 +54,12 @@ export default class Entity {
   }
 
   doMove(dir) {
+    if (this.moving) {
+      return
+    }
+
     this.lastX = this.x
     this.lastY = this.y
-
     if (this.dir === dir) {
       this.didMove = true
       if (dir === 0 && this.game.canWalk(this.x, this.y-1)) {
@@ -70,8 +72,13 @@ export default class Entity {
         this.x -= 1
       } else {
         this.moving = false
-        this.didMove = false
       }
+    } else {
+      this.moving = true
+      this.setDirection(dir)
+      setTimeout(() => {
+        this.moving = false
+      }, this.speed)
     }
     this.dir = dir
   }
@@ -79,15 +86,15 @@ export default class Entity {
   setDirection(dir=this.dir) {
     this.dir = dir
     if (this.dir === 0) {
-      // this.sprite.frame = 1
+      this.sprite.frame = 1
     } else if (this.dir === 1) {
-      // this.sprite.frame = 2
+      this.sprite.frame = 2
       this.sprite.scale.x = 1
     } else if (this.dir === 2) {
-      // this.sprite.frame = 0
+      this.sprite.frame = 0
     } else if (this.dir === 3) {
       this.sprite.scale.x = -1
-      // this.sprite.frame = 2
+      this.sprite.frame = 2
     }
   }
 
