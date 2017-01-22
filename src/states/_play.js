@@ -46,9 +46,6 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         }
       }
 
-      game.joystick = new Joystick(game)
-      game.joystick.inputEnable()
-
       game.talk1Sound = game.add.audio('talk1')
       game.talk2Sound = game.add.audio('talk2')
       game.talk3Sound = game.add.audio('talk3')
@@ -83,8 +80,12 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
           }
         }))
 
-        game.textManager = new TextManager(game)
         game.interface.createUI()
+
+        game.joystick = new Joystick(game, 200, this.game.height - 200)
+        game.joystick.inputEnable()
+
+        game.textManager = new TextManager(game)
 
         game.camera.x = 0
         game.camera.y = 0

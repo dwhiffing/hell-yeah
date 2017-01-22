@@ -21,7 +21,7 @@ export default class Interface {
     game.downPressed = () => cursors.down.isDown || sKey.isDown || game.joystick.cursors.down
     game.leftPressed = () => cursors.left.isDown || aKey.isDown || game.joystick.cursors.left
     game.rightPressed = () => cursors.right.isDown || dKey.isDown || game.joystick.cursors.right
-    game.priPressed = () => spaceKey.justDown || zKey.justDown
+    game.priPressed = () => spaceKey.justDown || zKey.justDown || game.joystick.pressed
     game.priDown = () => spaceKey.isDown || zKey.isDown
 
     this.addRight = (fn) => {
@@ -35,6 +35,10 @@ export default class Interface {
 
     this.addRestart = (fn) => {
       rKey.onDown.add(fn)
+    }
+
+    this.onPri = (fn) => {
+      game.joystick.onPress = fn
     }
 
     this.spaceKey = spaceKey

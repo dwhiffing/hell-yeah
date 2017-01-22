@@ -24,6 +24,9 @@ export default {
     this.load.spritesheet('portrait', 'images/faces.png', 400, 400)
     this.load.image('full', 'images/fullscreen.png')
     this.load.image('refresh', 'images/reload.png')
+    this.load.image('blank', 'images/blank.png')
+    this.load.image('joyBase', 'images/joy-base.png')
+    this.load.image('joyTip', 'images/joy-tip.png')
 
     this.load.tilemap('sokoban', 'json/sokoban.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('sokoban_2', 'json/sokoban_2.json', null, Phaser.Tilemap.TILED_JSON)

@@ -1,18 +1,18 @@
 var initialPoint
 const threshold = 50
 class Joystick {
-  constructor(game) {
+  constructor(game, x, y) {
     this.game = game
     this.input = this.game.input
     this.imageGroup = []
 
     // this.imageGroup.push(this.game.add.sprite(0, 0, 'compass'))
     // this.imageGroup.push(this.game.add.sprite(0, 0, 'touch_segment'))
-    this.imageGroup.push(this.game.add.sprite(0, 0, 'touch_segment'))
-    this.imageGroup.push(this.game.add.sprite(0, 0, 'touch'))
+    this.imageGroup.push(this.game.add.sprite(x, y, 'joyBase'))
+    this.imageGroup.push(this.game.add.sprite(x, y, 'joyTip'))
     this.imageGroup.forEach(function (e) {
+      e.bringToTop()
       e.anchor.set(0.5)
-      e.visible=false
       e.fixedToCamera=true
     })
 
@@ -45,13 +45,14 @@ class Joystick {
   createCompass(){
     initialPoint = this.input.activePointer.position.clone()
 
-    if (initialPoint.y < 300 || initialPoint.x > 500) {
+    this.isClick = true
+    setTimeout(() => this.isClick = false, 500)
+
+    if (initialPoint.y < 100 || initialPoint.y > this.game.height - 60) {
       return
     }
 
     this.imageGroup.forEach(function (e) {
-      e.visible = true
-      e.bringToTop()
       e.cameraOffset.x = this.input.worldX
       e.cameraOffset.y = this.input.worldY
     }, this)
@@ -60,14 +61,23 @@ class Joystick {
   }
 
   removeCompass () {
-    this.imageGroup.forEach(function(e){
-      e.visible = false
-    })
-
     this.cursors.up = false
     this.cursors.down = false
     this.cursors.left = false
     this.cursors.right = false
+
+    if (this.isClick) {
+      this.pressed = true
+      if (this.onPress) {
+        this.onPress()
+      }
+      setTimeout(() => this.pressed = false, 100)
+    }
+
+    this.imageGroup.forEach(function (e) {
+      e.cameraOffset.x = initialPoint.x
+      e.cameraOffset.y = initialPoint.y
+    }, this)
 
     this.speed.x = 0
     this.speed.y = 0

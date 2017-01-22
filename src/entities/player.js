@@ -7,8 +7,6 @@ export default class Player extends Entity {
   constructor(game, x=0, y=0, direction=0) {
     super(game, x, y, 'player')
     this.game = game
-    this.game.interface.zKey.onDown.add(this.doSlash.bind(this))
-    this.game.interface.spaceKey.onDown.add(this.doSlash.bind(this))
   }
 
   update(game) {
@@ -28,6 +26,9 @@ export default class Player extends Entity {
         this.takeMoveInput(3)
       } else if (game.rightPressed()) {
         this.takeMoveInput(1)
+      }
+      if (game.priPressed()) {
+        this.doSlash()
       }
     }
     slashTimer--

@@ -67,6 +67,7 @@ export default class TextManager {
 
     this.game.interface.zKey.onDown.add(this.onPress)
     this.game.interface.spaceKey.onDown.add(this.onPress)
+    this.game.interface.onPri(this.onPress)
 
     this.reset()
   }

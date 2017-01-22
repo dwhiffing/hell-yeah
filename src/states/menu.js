@@ -1,5 +1,3 @@
-let spaceKey, leftKey, rightKey, downKey, upKey
-
 export default {
   create(game) {
     this.game = game
@@ -12,37 +10,17 @@ export default {
     // let image = this.game.add.image(0,0,'title')
     // image.width = this.game.width
     // image.height = this.game.height
-    this.startText = game.add.text(70, this.game.height-55, "Start", { font: "bold 32px Arial", fill: "#fff" })
-    this.startText.anchor.setTo(0.5)
-    this.creditsText = game.add.text(70, this.game.height-20, "Credits", { font: "28px Arial", fill: "#fff" })
-    this.creditsText.anchor.setTo(0.5)
-    this.index = 0
 
-    leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT)
-    rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT)
-    upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP)
-    downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN)
-    spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+    let btn = game.add.button(70, this.game.height-200, 'blank', () => this.start(0))
+    let text = game.add.text(0, 0, "Start", { font: "50px Slackey", fill: "#fff" })
+    btn.addChild(text)
 
-    leftKey.onDown.add(this.move.bind(this, -1))
-    rightKey.onDown.add(this.move.bind(this, 1))
-    upKey.onDown.add(this.move.bind(this, 1))
-    downKey.onDown.add(this.move.bind(this, -1))
-    spaceKey.onDown.add(this.start.bind(this))
-    // game.input.onDown.add(this.start.bind(this))
+    let btn2 = game.add.button(70, this.game.height-120, 'blank', () => this.start(1))
+    let text2 = game.add.text(0, 0, "Credits", { font: "50px Slackey", fill: "#fff" })
+    btn2.addChild(text2)
   },
-  move(dir) {
-    this.index = this.index === 0 ? 1 : 0
-    if (this.index === 0) {
-      this.startText.setStyle({ font: "bold 32px Arial", fill: "#fff" })
-      this.creditsText.setStyle({ font: "28px Arial", fill: "#fff" })
-    } else {
-      this.startText.setStyle({ font: "28px Arial", fill: "#fff" })
-      this.creditsText.setStyle({ font: "bold 32px Arial", fill: "#fff" })
-    }
-  },
-  start() {
-    if (this.index === 0) {
+  start(index) {
+    if (index === 0) {
       this.game.state.start('sokoban', true, false)
     } else {
       this.game.state.start('credits', true, false)
