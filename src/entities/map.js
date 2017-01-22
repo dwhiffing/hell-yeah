@@ -86,6 +86,7 @@ export default class GameMap {
       if (this.getTile(destX, destY) || !this.canWalk(destX, destY)) {
         return 'blocked'
       } else {
+        this.game.rockSound.play()
         let tile = this.map.removeTile(srcX, srcY, 'Tile Layer 2')
         return this.map.putTile(tile.index, destX, destY, 'Tile Layer 2')
       }

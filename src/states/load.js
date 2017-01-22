@@ -6,6 +6,9 @@ export default {
     this.load.audio('talk1', 'audio/talk9.mp3')
     this.load.audio('talk2', 'audio/talk10.mp3')
     this.load.audio('talk3', 'audio/talk7.mp3')
+    this.load.audio('push', 'audio/pushRock.mp3')
+    this.load.audio('foot2', 'audio/footstep2.mp3')
+    this.load.audio('foot1', 'audio/footstep.mp3')
 
     this.load.spritesheet('tile', 'images/tile.png', 116, 116)
     this.load.spritesheet('triggers', 'images/triggers.png', 116, 116)

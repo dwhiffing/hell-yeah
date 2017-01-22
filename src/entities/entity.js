@@ -15,6 +15,7 @@ export default class Entity {
     this.sprite = game.add.sprite((this.x * tileSize + tileSize/2), (this.y * tileSize), key)
     this.sprite.anchor.x = 0.5
     this.inverseDirection = [2, 3, 0, 1]
+    this.soundIndex = 0
     this.upAnim = this.sprite.animations.add('up', [0, 3], true)
     this.downAnim = this.sprite.animations.add('down', [1, 4], true)
     this.sideAnim = this.sprite.animations.add('side', [2, 5], true)
@@ -111,6 +112,9 @@ export default class Entity {
     this.didMove = false
     this.lastX = this.x
     this.lastY = this.y
+    this.soundIndex = this.soundIndex === 0 ? 1 : 0
+    const sound = this.soundIndex === 0 ? this.game.footSound : this.game.foot2Sound
+    sound.play()
   }
 
   preMove() {
