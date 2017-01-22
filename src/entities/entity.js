@@ -7,37 +7,55 @@ export default class Entity {
     this.game = game
     this.x = x
     this.y = y
+    this.lastX = this.x
+    this.lastY = this.y
     this.dir = 0
-    this.mod = 2
-    this.speed = tileSize/this.mod
-    this.moveCount = 0
-    this.timer = 0
-    this.sprite = game.add.sprite((this.x * tileSize + tileSize/2), (this.y * tileSize + tileSize/2), key)
+    this.speed = 400
+    this.frameRate = 4
+    this.sprite = game.add.sprite((this.x * tileSize + tileSize/2), (this.y * tileSize), key)
     this.sprite.anchor.x = 0.5
-    this.sprite.anchor.y = 0.5
     this.inverseDirection = [2, 3, 0, 1]
+    this.upAnim = this.sprite.animations.add('up', [0, 3], true)
+    this.downAnim = this.sprite.animations.add('down', [1, 4], true)
+    this.sideAnim = this.sprite.animations.add('side', [2, 5], true)
     this.setDirection()
   }
 
   update(game) {
-    if (this.moving) {
-      this.timer--
-      if (this.timer <= 0) {
-        if (this.didMove) {
-          this.move()
-        } else {
-          this.turn()
-        }
-        this.timer = timerMax
+    if (this.x === this.lastX && this.y === this.lastY || this.moving) {
+      return
+    }
+    if (this.didMove) {
+      if (this.dir === 0) {
+        this.downAnim.play(5, true)
+      } else if (this.dir === 1) {
+        this.sideAnim.play(5, true)
+      } else if (this.dir === 2) {
+        this.upAnim.play(5, true)
+      } else if (this.dir === 3) {
+        this.sideAnim.play(5, true)
       }
+      this.setDirection()
+      this.moving = true
+      this.tween = this.game.add.tween(this.sprite)
+      this.tween.onComplete.add(this.finishTween.bind(this))
+      this.tween.to({ x: this.x * tileSize + tileSize/2, y: this.y * tileSize }, this.speed).start()
+    } else {
+      this.setDirection()
+      this.postMove()
+      this.moving = true
+      setTimeout(() => {
+        this.moving = false
+        this.upAnim.stop()
+        this.downAnim.stop()
+        this.sideAnim.stop()
+      }, this.speed)
     }
   }
 
   doMove(dir) {
     this.lastX = this.x
     this.lastY = this.y
-    this.moveCount = 0
-    this.moving = true
 
     if (this.dir === dir) {
       this.didMove = true
@@ -57,27 +75,18 @@ export default class Entity {
     this.dir = dir
   }
 
-  turn() {
-    this.moveCount++
-    this.setDirection()
-    if (this.moveCount >= this.mod) {
-      this.postMove()
-      this.moving = false
-    }
-  }
-
   setDirection(dir=this.dir) {
     this.dir = dir
     if (this.dir === 0) {
-      this.sprite.frame = 1
+      // this.sprite.frame = 1
     } else if (this.dir === 1) {
-      this.sprite.frame = 2
+      // this.sprite.frame = 2
       this.sprite.scale.x = 1
     } else if (this.dir === 2) {
-      this.sprite.frame = 0
+      // this.sprite.frame = 0
     } else if (this.dir === 3) {
       this.sprite.scale.x = -1
-      this.sprite.frame = 2
+      // this.sprite.frame = 2
     }
   }
 
@@ -93,29 +102,15 @@ export default class Entity {
     }
   }
 
-  move() {
-    if (this.x === this.lastX && this.y === this.lastY) {
-      return
-    }
-    this.moveCount++
-    if (this.dir === 0) {
-      this.sprite.y -= this.speed
-      this.sprite.frame = this.sprite.frame !== 4 ? 4 : 1
-    } else if (this.dir === 1) {
-      this.sprite.x += this.speed
-      this.sprite.frame = this.sprite.frame !== 5 ? 5 : 2
-    } else if (this.dir === 2) {
-      this.sprite.y += this.speed
-      this.sprite.frame = this.sprite.frame !== 3 ? 3 : 0
-    } else if (this.dir === 3) {
-      this.sprite.x -= this.speed
-      this.sprite.frame = this.sprite.frame !== 5 ? 5 : 2
-    }
-    if (this.moveCount >= this.mod) {
-      this.postMove()
-      this.moving = false
-      this.didMove = false
-    }
+  finishTween() {
+    this.postMove()
+    this.moving = false
+    this.upAnim.stop()
+    this.downAnim.stop()
+    this.sideAnim.stop()
+    this.didMove = false
+    this.lastX = this.x
+    this.lastY = this.y
   }
 
   preMove() {

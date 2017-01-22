@@ -33,33 +33,45 @@ export default {
     }]
   ],
   stealth: [
+    [],
+    [],
     [
       {
-        movement: [],
-        speed: 2,
-        direction: 1,
+        movement: [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0],
+        speed: 1000,
+        direction: 2,
         key: 'skull',
         convo: [
           "Hey you!",
         ],
       }, {
-        movement: [1, 1, 1, 1, 2, 3, 3, 3, 3],
-        speed: 4,
+        movement: [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0],
+        speed: 1000,
         direction: 2,
         key: 'charon',
         convo: [
           "Hey you!",
         ],
       }, {
-        movement: [0, 1, 2, 3],
-        speed: 8,
+        movement: [1, 1, 1, 1, 2, 2, 2, 3, 3, 3, 3, 0, 0, 0],
+        speed: 1000,
+        direction: 2,
+        key: 'man',
+        convo: [
+          "Hey you!",
+        ],
+      }, {
+        movement: [1, 1, 1, 0, 0, 0, 0, 3, 3, 3, 2, 2, 2, 2],
+        speed: 1000,
         direction: 2,
         key: 'woman',
         convo: [
           "Hey you!",
         ],
       },
-    ]
+    ],
+    [],
+    [],
   ],
   trivia: [
     [
@@ -68,16 +80,43 @@ export default {
         direction: 2,
         key: 'skull',
         convo: [
-          "Hey you!",
+          "Riddle me this!",
+          "This or that?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
         ],
-      }
-    ], [{
-      movement: [],
-      key: 'charon',
-      direction: 1,
-      convo: [
-        "Oh.",
-      ],
-    }]
+      },
+      {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Riddle me this!",
+          "This or that?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
+        ],
+      },
+      {
+        movement: [],
+        direction: 2,
+        key: 'skull',
+        convo: [
+          "Riddle me this!",
+          "If you could do anything at all would you do this thing or that thing?",
+          {
+            text: "What do you think?",
+            choiceA: { text: 'This', value: 1, response: "Right!" },
+            choiceB: { text: 'That', value: 2, response: 'Wrong!' }
+          },
+        ],
+      },
+    ]
   ]
 }

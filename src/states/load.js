@@ -18,8 +18,12 @@ export default {
     this.load.tilemap('sokoban_3', 'json/sokoban_3.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('sokoban_4', 'json/sokoban_4.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('sokoban_5', 'json/sokoban_5.json', null, Phaser.Tilemap.TILED_JSON)
-    this.load.tilemap('trivia', 'json/trivia.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('stealth', 'json/stealth.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('stealth_2', 'json/stealth_2.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('stealth_3', 'json/stealth_3.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('stealth_4', 'json/stealth_4.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('stealth_5', 'json/stealth_5.json', null, Phaser.Tilemap.TILED_JSON)
+    this.load.tilemap('trivia', 'json/trivia.json', null, Phaser.Tilemap.TILED_JSON)
   },
 
   onLoadComplete() {

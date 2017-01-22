@@ -1,5 +1,5 @@
 let cursors, aKey, wKey, sKey, dKey, spaceKey, zKey, rKey
-let oneKey, twoKey, threeKey, fourKey, fiveKey
+let nineKey, zeroKey
 
 export default class Interface {
   constructor(game) {
@@ -14,11 +14,8 @@ export default class Interface {
     spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     zKey = game.input.keyboard.addKey(Phaser.Keyboard.Z)
 
-    oneKey = game.input.keyboard.addKey(Phaser.Keyboard.ONE)
-    twoKey = game.input.keyboard.addKey(Phaser.Keyboard.TWO)
-    threeKey = game.input.keyboard.addKey(Phaser.Keyboard.THREE)
-    fourKey = game.input.keyboard.addKey(Phaser.Keyboard.FOUR)
-    fiveKey = game.input.keyboard.addKey(Phaser.Keyboard.FIVE)
+    nineKey = game.input.keyboard.addKey(Phaser.Keyboard.NINE)
+    zeroKey = game.input.keyboard.addKey(Phaser.Keyboard.ZERO)
 
     game.upPressed = () => cursors.up.isDown || wKey.isDown
     game.downPressed = () => cursors.down.isDown || sKey.isDown
@@ -43,11 +40,8 @@ export default class Interface {
     this.spaceKey = spaceKey
     this.zKey = zKey
 
-    oneKey.onDown.add(() => this.game.state.start('sokoban', true, false))
-    twoKey.onDown.add(() => this.game.state.start('bridge', true, false))
-    threeKey.onDown.add(() => this.game.state.start('memory', true, false))
-    fourKey.onDown.add(() => this.game.state.start('trivia', true, false))
-    fiveKey.onDown.add(() => this.game.state.start('stealth', true, false))
+    zeroKey.onDown.add(this.game.nextLevel)
+    nineKey.onDown.add(this.game.previousLevel)
   }
 
   update(game) {}
