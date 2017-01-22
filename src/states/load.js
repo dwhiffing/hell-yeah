@@ -19,10 +19,14 @@ export default {
     this.load.spritesheet('triggers', 'images/triggers.png', 116, 116)
     this.load.spritesheet('stuff', 'images/stuff.png', 116, 116)
     this.load.spritesheet('player', 'images/player.png', 116, 116)
-    this.load.spritesheet('man', 'images/man.png', 116, 116)
+
+    this.load.spritesheet('man', 'images/man1.png', 116, 116)
+    this.load.spritesheet('man2', 'images/man2.png', 116, 116)
+    this.load.spritesheet('man3', 'images/man3.png', 116, 116)
     this.load.spritesheet('charon', 'images/charon.png', 116, 116)
     this.load.spritesheet('skull', 'images/skull.png', 116, 116)
     this.load.spritesheet('woman', 'images/woman.png', 116, 116)
+
     this.load.spritesheet('portrait', 'images/faces.png', 400, 400)
     this.load.image('full', 'images/fullscreen.png')
     this.load.image('refresh', 'images/reload.png')

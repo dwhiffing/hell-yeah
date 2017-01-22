@@ -35,12 +35,17 @@ export default {
     ], [ // LEVEL THREE -------------------------------------- [
       {
         movement: [],
-        key: 'charon',
-        direction: 1,
+        key: 'woman',
+        direction: 0,
         convo: [
-          "...................................................................................",
-          "Oh.",
-          "I'm busy over here, could you get back to 'cleaning'?",
+          "This looks really confusing...",
+          "Hm",
+          "Hmmm..",
+          "Hmmmmmm...",
+          "Hmmmmmmmmmm.....",
+          "Hmmmmmmmmmmmmmmmmmmmmm................",
+          "Mm.",
+          "See if you can work this one out, I'm a bit tired from all this thinking.",
         ],
       }
     ],
@@ -48,10 +53,10 @@ export default {
   stealth: [
     [// LEVEL ONE --------------------------------------
       {
-        movement: [3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2],
+        movement: [3, 3, 3, 3, 3, 3, 3, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2],
         speed: 1000,
-        direction: 3,
-        key: 'skull',
+        direction: 0,
+        key: 'man',
         convo: [
           "Hey you!",
         ],
@@ -59,13 +64,21 @@ export default {
         movement: [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3],
         speed: 1000,
         direction: 1,
-        key: 'skull',
+        key: 'woman',
         convo: [
           "Hey you!",
         ],
       }
     ], [// LEVEL TWO --------------------------------------
       {
+        movement: [1, 2],
+        speed: 1000,
+        direction: 2,
+        key: 'man2',
+        convo: [
+          "Hey you!",
+        ],
+      }, {
         movement: [0, 1],
         speed: 1000,
         direction: 1,
@@ -77,7 +90,15 @@ export default {
         movement: [3, 2],
         speed: 1000,
         direction: 2,
-        key: 'skull',
+        key: 'man3',
+        convo: [
+          "Hey you!",
+        ],
+      },{
+        movement: [0, 1],
+        speed: 1000,
+        direction: 1,
+        key: 'charon',
         convo: [
           "Hey you!",
         ],
@@ -85,7 +106,7 @@ export default {
         movement: [0, 1, 3],
         speed: 1000,
         direction: 3,
-        key: 'skull',
+        key: 'man',
         convo: [
           "Hey you!",
         ],

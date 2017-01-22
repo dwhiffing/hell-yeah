@@ -156,6 +156,14 @@ export default class TextManager {
         this.currentPortrait = 0
       } else if (key === 'charon') {
         this.currentPortrait = 2
+      } else if (key === 'man') {
+        this.currentPortrait = 4
+      } else if (key === 'man2') {
+        this.currentPortrait = 6
+      } else if (key === 'man3') {
+        this.currentPortrait = 8
+      } else {
+        this.currentPortrait = 10
       }
       this.choiceAText.alpha = 0
       this.choiceBText.alpha = 0

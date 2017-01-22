@@ -9,6 +9,8 @@ export default playStateFactory({
     game.killOnWrongChoice = true
   },
   update: (game) => {
-
+    if (!game.gameMap.canExit) {
+      game.gameMap.revealExit()
+    }
   },
 })

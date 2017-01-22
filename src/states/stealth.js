@@ -14,8 +14,10 @@ export default playStateFactory({
   levelIndex: 1,
   create: (game) => {
     game.nonPlayerManager.createEntities(nonPlayers)
-    game.gameMap.revealExit()
   },
   update: (game) => {
+    if (!game.gameMap.canExit) {
+      game.gameMap.revealExit()
+    }
   },
 })
