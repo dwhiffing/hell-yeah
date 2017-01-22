@@ -17,10 +17,10 @@ export default class Interface {
     nineKey = game.input.keyboard.addKey(Phaser.Keyboard.NINE)
     zeroKey = game.input.keyboard.addKey(Phaser.Keyboard.ZERO)
 
-    game.upPressed = () => cursors.up.isDown || wKey.isDown
-    game.downPressed = () => cursors.down.isDown || sKey.isDown
-    game.leftPressed = () => cursors.left.isDown || aKey.isDown
-    game.rightPressed = () => cursors.right.isDown || dKey.isDown
+    game.upPressed = () => cursors.up.isDown || wKey.isDown || game.joystick.cursors.up
+    game.downPressed = () => cursors.down.isDown || sKey.isDown || game.joystick.cursors.down
+    game.leftPressed = () => cursors.left.isDown || aKey.isDown || game.joystick.cursors.left
+    game.rightPressed = () => cursors.right.isDown || dKey.isDown || game.joystick.cursors.right
     game.priPressed = () => spaceKey.justDown || zKey.justDown
     game.priDown = () => spaceKey.isDown || zKey.isDown
 
@@ -42,6 +42,35 @@ export default class Interface {
 
     zeroKey.onDown.add(this.game.nextLevel)
     nineKey.onDown.add(this.game.previousLevel)
+  }
+
+  createUI() {
+    this.game.muteButton = this.game.add.button(this.game.width - 120, this.game.height - 62, 'mute', this.mute)
+    this.game.muteButton.fixedToCamera = true
+    this.game.muteButton.scale.setTo(2.5)
+    this.game.muteButton.frame = 1
+    this.game.muteButton.alpha = 0.5
+
+    this.game.fullscreenButton = this.game.add.button(this.game.width - 60, this.game.height - 60, 'full', () => {
+      if (this.game.scale.isFullScreen) {
+        this.game.scale.stopFullScreen()
+      } else {
+        this.game.scale.startFullScreen(false)
+      }
+    })
+
+    this.game.fullscreenButton.fixedToCamera = true
+    this.game.fullscreenButton.scale.setTo(0.2)
+
+    this.game.refreshButton = this.game.add.button(this.game.width - 90, 30, 'refresh', this.game.loadLevel)
+    this.game.refreshButton.fixedToCamera = true
+    this.game.refreshButton.alpha = 0.5
+    this.game.refreshButton.scale.setTo(0.25)
+  }
+
+  mute() {
+    this.game.sound.mute = !this.game.sound.mute
+    this.game.muteButton.frame = !!this.game.sound.mute ? 0 : 1
   }
 
   update(game) {}

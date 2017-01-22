@@ -4,6 +4,7 @@ import Player from '../entities/player'
 import TextManager from '../entities/textManager'
 import NonPlayerManager from '../entities/nonPlayerManager'
 import entityData from '../entityData'
+import Joystick from '../joystick'
 
 const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=()=>{}, shutdown=()=>{}, numLevels=1, levelIndex=1 }) => {
   return {
@@ -19,6 +20,14 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         if (this.game.gameMap.levelIndex < 5) {
           this.game.gameMap.levelIndex++
           this.game.loadLevel()
+        } else {
+          let next = 'trivia'
+          if (this.game.state.current === 'sokoban') {
+            next = 'stealth'
+          } else if (this.game.state.current === 'trivia') {
+            return
+          }
+          this.game.state.start(next, true, false)
         }
       }
 
@@ -26,8 +35,19 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         if (this.game.gameMap.levelIndex > 1) {
           this.game.gameMap.levelIndex--
           this.game.loadLevel()
+        } else {
+          let prev = 'stealth'
+          if (this.game.state.current === 'stealth') {
+            prev = 'sokoban'
+          } else if (this.game.state.current === 'sokoban') {
+            return
+          }
+          this.game.state.start(prev, true, false)
         }
       }
+
+      game.joystick = new Joystick(game)
+      game.joystick.inputEnable()
 
       game.talk1Sound = game.add.audio('talk1')
       game.talk2Sound = game.add.audio('talk2')
@@ -37,16 +57,19 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
       game.footSound = game.add.audio('foot1', 0.1)
       game.foot2Sound = game.add.audio('foot2', 0.3)
 
-      game.interface = new UserInterface(game)
-
       game.gameMap = new GameMap(game, tilemap, exit, this.opts.direction, numLevels, levelIndex)
 
       game.loadLevel = () => {
+        game.interface = new UserInterface(game)
+        this.game.interface.addRestart(this.game.loadLevel)
+
         game.gameMap.loadLevel()
+
         game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY, game.gameMap.playerDir)
         game.nonPlayerManager = new NonPlayerManager(game)
         game.allowPushing = true
         game.playerCanMove = true
+
         game.nonPlayerManager.createEntities(game.gameMap.entityPositions.map((e, i) => {
           const passedIn = entityData[tilemap][game.gameMap.levelIndex - 1][i]
           return {
@@ -61,15 +84,14 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         }))
 
         game.textManager = new TextManager(game)
+        game.interface.createUI()
 
         game.camera.x = 0
         game.camera.y = 0
         game.camera.follow(game.player.sprite)
       }
 
-      this.game.interface.addRestart(this.game.loadLevel)
-
-      this.game.loadLevel()
+      game.loadLevel()
 
       game.canWalk = (x, y) => {
         return game.gameMap.canWalk(x, y) && game.nonPlayerManager.canWalk(x, y)
@@ -79,6 +101,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
     },
 
     update(game) {
+      this.game.joystick.preUpdate(game)
       game.interface.update(game)
       game.player.update(game)
       game.textManager.update(game)

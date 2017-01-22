@@ -1,7 +1,7 @@
 export default {
   preload() {
     this.load.onLoadComplete.addOnce(this.onLoadComplete, this)
-    this.game.stage.smoothed = false
+    this.game.stage.smoothed = true
 
     this.load.audio('talk1', 'audio/talk9.mp3')
     this.load.audio('talk2', 'audio/talk10.mp3')
@@ -12,6 +12,7 @@ export default {
     this.load.audio('wew', 'audio/wew.mp3')
     this.load.audio('music', 'audio/music.mp3')
 
+    this.load.spritesheet('mute', 'images/mute.png', 16, 20)
     this.load.spritesheet('tile', 'images/tile.png', 116, 116)
     this.load.spritesheet('triggers', 'images/triggers.png', 116, 116)
     this.load.spritesheet('stuff', 'images/stuff.png', 116, 116)
@@ -21,6 +22,8 @@ export default {
     this.load.spritesheet('skull', 'images/skull.png', 116, 116)
     this.load.spritesheet('woman', 'images/woman.png', 116, 116)
     this.load.spritesheet('portrait', 'images/faces.png', 400, 400)
+    this.load.image('full', 'images/fullscreen.png')
+    this.load.image('refresh', 'images/reload.png')
 
     this.load.tilemap('sokoban', 'json/sokoban.json', null, Phaser.Tilemap.TILED_JSON)
     this.load.tilemap('sokoban_2', 'json/sokoban_2.json', null, Phaser.Tilemap.TILED_JSON)
