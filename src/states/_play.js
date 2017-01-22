@@ -23,12 +23,13 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         game.gameMap.loadLevel()
         game.player = new Player(game, game.gameMap.playerX, game.gameMap.playerY, game.gameMap.playerDir)
         game.nonPlayerManager = new NonPlayerManager(game)
-
+        game.allowPushing = true
         game.nonPlayerManager.createEntities(game.gameMap.entityPositions.map((e, i) => {
           const passedIn = entityData[tilemap][game.gameMap.levelIndex - 1][i]
           return {
             x: e.x,
             y: e.y,
+            key: passedIn ? passedIn.key : 'man',
             movement: passedIn ? passedIn.movement : [],
             convo: passedIn ? passedIn.convo : [],
             direction: passedIn ? passedIn.direction : 0,
@@ -36,6 +37,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
         }))
 
         game.textManager = new TextManager(game)
+        
         game.camera.x = 0
         game.camera.y = 0
         game.camera.follow(game.player.sprite)

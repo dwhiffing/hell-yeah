@@ -5,7 +5,7 @@ let exitIndex = 31
 
 export default class Player extends Entity {
   constructor(game, x=0, y=0, direction=0) {
-    super(game, x, y, direction)
+    super(game, x, y, 'player')
     this.game = game
     this.game.interface.zKey.onDown.add(this.doSlash.bind(this))
     this.game.interface.spaceKey.onDown.add(this.doSlash.bind(this))
@@ -54,6 +54,9 @@ export default class Player extends Entity {
   }
 
   pushIfOccupied(dir) {
+    if (!this.game.allowPushing) {
+      return
+    }
     if (dir === 0 && this.game.gameMap.isOccupied(this.x, this.y-1)) {
       return this.game.gameMap.pushTile(this.x, this.y-1, this.x, this.y-2)
     }

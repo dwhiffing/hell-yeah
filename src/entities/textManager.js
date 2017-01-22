@@ -5,27 +5,13 @@ const textBuffer = 30
 const timing = 3
 const doWeirdThing = false
 
-let textToDisplay = ''
-let index, gotoNextPage, lastWordIndex, textTimer, fastMode, startIndex, finishedCurrentPage, textObject, objectGroup, convoIndex, choiceAText, choiceBText, choiceIndex, inChoice
-
 export default class TextManager {
   constructor(game) {
     this.game = game
 
-    finishedCurrentPage = true
-    this.finishedWithConvo = true
-    this.convo = []
-    textToDisplay = ''
-    index = 0
-    convoIndex = 0
-    choiceIndex = 0
-    gotoNextPage = false
-    lastWordIndex = []
-    textTimer = timing
-    fastMode = false
-    startIndex = 0
-    finishedCurrentPage = true
     this.onPress = this.onPress.bind(this)
+
+    this.reset()
 
     const y = this.game.height - boxHeight - rightBuffer
     const opts = {
@@ -36,27 +22,27 @@ export default class TextManager {
       wordWrapWidth: this.game.width - rightBuffer - textBuffer - leftBuffer,
     }
 
-    objectGroup = this.game.add.group()
+    this.objectGroup = this.game.add.group()
     this.graphics = this.game.add.graphics(leftBuffer, y)
     this.graphics.fixedToCamera = true
 
-    textObject = this.game.add.text(leftBuffer + textBuffer, y + textBuffer - 10, textToDisplay, opts)
-    textObject.fixedToCamera = true
+    this.textObject = this.game.add.text(leftBuffer + textBuffer, y + textBuffer - 10, this.textToDisplay, opts)
+    this.textObject.fixedToCamera = true
 
     const choiceOpts = Object.assign({}, opts, { font: 'bold Slackey', fontSize: 30 })
 
-    choiceAText = this.game.add.text(leftBuffer + textBuffer, y + textBuffer + 120, 'choiceA', choiceOpts)
-    choiceBText = this.game.add.text(leftBuffer + textBuffer + 300, y + textBuffer + 120, 'choiceB', choiceOpts)
-    choiceAText.fixedToCamera = true
-    choiceBText.fixedToCamera = true
+    this.choiceAText = this.game.add.text(leftBuffer + textBuffer, y + textBuffer + 100, 'choiceA', choiceOpts)
+    this.choiceBText = this.game.add.text(leftBuffer + textBuffer + 300, y + textBuffer + 100, 'choiceB', choiceOpts)
+    this.choiceAText.fixedToCamera = true
+    this.choiceBText.fixedToCamera = true
     this.game.interface.addLeft(this.toggleChoice.bind(this))
     this.game.interface.addRight(this.toggleChoice.bind(this))
 
-    objectGroup.add(this.graphics)
-    objectGroup.add(textObject)
-    objectGroup.add(choiceAText)
-    objectGroup.add(choiceBText)
-    objectGroup.alpha = 0
+    this.objectGroup.add(this.graphics)
+    this.objectGroup.add(this.textObject)
+    this.objectGroup.add(this.choiceAText)
+    this.objectGroup.add(this.choiceBText)
+    this.objectGroup.alpha = 0
 
     this.graphics.beginFill(0x111111)
     this.graphics.drawRect(0, 0, this.game.width - leftBuffer - rightBuffer, boxHeight)
@@ -66,45 +52,61 @@ export default class TextManager {
     this.game.interface.spaceKey.onDown.add(this.onPress)
   }
 
-  update(game) {
-    if (!finishedCurrentPage && gotoNextPage) {
+  reset() {
+    this.finishedCurrentPage = true
+    this.finishedWithConvo = true
+    this.convo = []
+    this.textToDisplay = ''
+    this.index = 0
+    this.convoIndex = 0
+    this.choiceIndex = 0
+    this.gotoNextPage = false
+    this.lastWordIndex = []
+    this.textTimer = timing
+    this.fastMode = false
+    this.startIndex = 0
+    this.finishedCurrentPage = true
+  }
 
-      if (textObject._height > 159 && textObject.text != '') {
-        textObject.text = textToDisplay.slice(startIndex, lastWordIndex[1]+1)
-        startIndex = lastWordIndex[1]+1
-        index = lastWordIndex[0]+1
-        fastMode = false
-        gotoNextPage = false
+  update(game) {
+    if (!this.finishedCurrentPage && this.gotoNextPage) {
+
+      if (this.textObject._height > 159 && this.textObject.text != '') {
+        this.textObject.text = this.textToDisplay.slice(this.startIndex, this.lastWordIndex[1]+1)
+        this.startIndex = this.lastWordIndex[1]+1
+        this.index = this.lastWordIndex[0]+1
+        this.fastMode = false
+        this.gotoNextPage = false
         return
       }
 
-      if (textTimer > 0) {
-        textTimer -= fastMode ? 2 : 1
+      if (this.textTimer > 0) {
+        this.textTimer -= this.fastMode ? 2 : 1
       } else {
-        let lettersForUpdate = fastMode ? 2 : 1
-        index += lettersForUpdate
+        let lettersForUpdate = this.fastMode ? 2 : 1
+        this.index += lettersForUpdate
 
         let nextString
         if (doWeirdThing) {
-          nextString = textToDisplay.slice(startIndex, index+lettersForUpdate)
+          nextString = this.textToDisplay.slice(this.startIndex, this.index+lettersForUpdate)
         } else {
-          nextString = textToDisplay.slice(index, index+lettersForUpdate)
+          nextString = this.textToDisplay.slice(this.index, this.index+lettersForUpdate)
         }
 
-        textObject.text = textToDisplay.slice(startIndex, index)
+        this.textObject.text = this.textToDisplay.slice(this.startIndex, this.index)
 
         const match = /\s/.exec(nextString)
         if (match) {
-          lastWordIndex[1] = lastWordIndex[0]
-          lastWordIndex[0] = index + match.index
+          this.lastWordIndex[1] = this.lastWordIndex[0]
+          this.lastWordIndex[0] = this.index + match.index
         }
 
-        if (index > textToDisplay.length) {
-          finishedCurrentPage = true
+        if (this.index > this.textToDisplay.length) {
+          this.finishedCurrentPage = true
         }
 
-        if (!fastMode) {
-          textTimer = timing
+        if (!this.fastMode) {
+          this.textTimer = timing
         }
       }
     }
@@ -112,58 +114,64 @@ export default class TextManager {
 
   bufferConvo(convo) {
     if (this.finishedWithConvo) {
-      convoIndex = 0
+      this.reset()
+      this.convoIndex = 0
       this.convo = convo
-      objectGroup.alpha = 1
-      choiceAText.alpha = 0
-      choiceBText.alpha = 0
+      this.objectGroup.alpha = 1
+      this.choiceAText.alpha = 0
+      this.choiceBText.alpha = 0
+      console.log(this.convo)
       this.doNext()
     }
   }
 
   bufferText(text) {
-    if (finishedCurrentPage) {
-      textToDisplay = text
-      fastMode = false
-      finishedCurrentPage = false
-      index = 0
-      startIndex = 0
+    if (this.finishedCurrentPage) {
+      this.textToDisplay = text
+      this.fastMode = false
+      this.finishedCurrentPage = false
+      this.index = 0
+      this.startIndex = 0
       this.finishedWithConvo = false
     }
   }
 
   bufferChoice(choice) {
-    inChoice = true
-    textToDisplay = choice.text
-    finishedCurrentPage = false
-    index = 0
-    choiceIndex = 0
-    choiceAText.fontSize = 35
-    startIndex = 0
-    choiceAText.alpha = 1
-    choiceAText.text = choice.choiceA.text
-    choiceBText.text = choice.choiceB.text
-    choiceBText.alpha = 1
+    this.inChoice = true
+    this.textToDisplay = choice.text
+    this.finishedCurrentPage = false
+    this.index = 0
+    this.choiceIndex = 0
+    this.choiceAText.fontSize = 50
+    this.choiceBText.fontSize = 30
+    this.choiceAText.fill = '#ffffff'
+    this.choiceBText.fill = '#999999'
+    this.startIndex = 0
+    this.choiceAText.alpha = 1
+    this.choiceAText.text = choice.choiceA.text
+    this.choiceBText.text = choice.choiceB.text
+    this.choiceBText.alpha = 1
     this.finishedWithConvo = false
   }
 
   doNext() {
-    if (convoIndex >= this.convo.length) {
+    if (this.convoIndex >= this.convo.length) {
       this.finishedWithConvo = true
-      objectGroup.alpha = 0
+      this.reset()
+      this.objectGroup.alpha = 0
     } else {
-      if (inChoice) {
-        const response = this.convo[convoIndex][choiceIndex === 0 ? 'choiceA' : 'choiceB'].response
+      if (this.inChoice) {
+        const response = this.convo[this.convoIndex][this.choiceIndex === 0 ? 'choiceA' : 'choiceB'].response
         this.bufferText(response)
-        inChoice = false
-        convoIndex++
-        choiceAText.alpha = 0
-        choiceBText.alpha = 0
+        this.inChoice = false
+        this.convoIndex++
+        this.choiceAText.alpha = 0
+        this.choiceBText.alpha = 0
       } else {
-        let nextPartOfConvo = this.convo[convoIndex]
+        let nextPartOfConvo = this.convo[this.convoIndex]
         if (typeof nextPartOfConvo === 'string') {
           this.bufferText(nextPartOfConvo)
-          convoIndex++
+          this.convoIndex++
         } else {
           this.bufferChoice(nextPartOfConvo)
         }
@@ -172,24 +180,28 @@ export default class TextManager {
   }
 
   onPress() {
-    if (finishedCurrentPage) {
-      setTimeout(this.doNext.bind(this), 500)
-    } else if (gotoNextPage) {
-      fastMode = true
+    if (this.finishedCurrentPage) {
+      setTimeout(this.doNext.bind(this), 200)
+    } else if (this.gotoNextPage) {
+      this.fastMode = true
     } else {
-      textObject.text = ''
-      gotoNextPage = true
+      this.textObject.text = ''
+      this.gotoNextPage = true
     }
   }
 
   toggleChoice() {
-    choiceIndex = choiceIndex === 0 ? 1 : 0
-    if (choiceIndex === 0) {
-      choiceAText.fontSize = 35
-      choiceBText.fontSize = 30
+    this.choiceIndex = this.choiceIndex === 0 ? 1 : 0
+    if (this.choiceIndex === 0) {
+      this.choiceAText.fontSize = 50
+      this.choiceBText.fontSize = 30
+      this.choiceAText.fill = '#ffffff'
+      this.choiceBText.fill = '#999999'
     } else {
-      choiceAText.fontSize = 30
-      choiceBText.fontSize = 35
+      this.choiceAText.fontSize = 30
+      this.choiceBText.fontSize = 50
+      this.choiceAText.fill = '#999999'
+      this.choiceBText.fill = '#ffffff'
     }
   }
 }

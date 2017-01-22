@@ -15,6 +15,7 @@ export default playStateFactory({
     const bones = game.gameMap.getTilesForIndex(boneIndex, 'Tile Layer 3')
     let finished = bones.every(b => stones.some(s => s.x === b.x && s.y === b.y))
     if (finished) {
+      game.allowPushing = false
       game.gameMap.revealExit()
     }
   },

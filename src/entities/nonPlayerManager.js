@@ -9,7 +9,7 @@ export default class NonPlayerManager {
 
   createEntities(nonPlayers, convos) {
     nonPlayers.forEach(p => {
-      let nonPlayer = new NonPlayer(this.game, p.x, p.y, p.direction, p.movement, p.convo)
+      let nonPlayer = new NonPlayer(this.game, p.x, p.y, p.key, p.direction, p.movement, p.convo)
       this.group.add(nonPlayer.sprite)
       this.nonPlayerObjects.push(nonPlayer)
     })
