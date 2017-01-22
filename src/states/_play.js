@@ -115,6 +115,7 @@ const playStateFactory = ({ tilemap, exit, create=()=>{}, update=()=>{}, render=
       this.game.joystick.preUpdate(game)
       game.interface.update(game)
       game.player.update(game)
+      game.lightManager.update(game)
       game.textManager.update(game)
       game.nonPlayerManager.update(game)
       update(game)

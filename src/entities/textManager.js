@@ -213,21 +213,26 @@ export default class TextManager {
           this.finishedWithConvo = true
           this.reset()
           this.canPress = false
-          this.callback && this.callback()
+          if (this.game.state.current !== 'trivia') {
+            this.callback && this.callback()
+          }
         }, 300)
       })
       this.tween.to({ alpha: 0 }, 500).delay(500).start()
     } else {
       if (this.inChoice) {
         const choiceObject = this.convo[this.convoIndex][this.choiceIndex === 0 ? 'choiceA' : 'choiceB']
+        const correct = this.convo[this.convoIndex].correct
         this.bufferText(choiceObject.response)
-        if (choiceObject.value === choiceObject.correctChoice || 2) {
+        if (choiceObject.value !== correct) {
           this.callback = () => {
             if (this.game.killOnWrongChoice) {
               this.callback = null
               this.game.loadLevel()
             }
           }
+        } else {
+          this.callback && this.callback()
         }
         this.soundTiming = 0
         this.inChoice = false

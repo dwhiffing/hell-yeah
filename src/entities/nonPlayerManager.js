@@ -32,4 +32,12 @@ export default class NonPlayerManager {
   canWalk(x, y) {
     return !this.getNpc(x, y)
   }
+
+  kill(npc) {
+    let index = this.nonPlayerObjects.indexOf(npc)
+    if (index > -1) {
+      this.nonPlayerObjects.splice(index, 1)
+      npc.sprite.kill()
+    }
+  }
 }

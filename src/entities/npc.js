@@ -59,7 +59,13 @@ export default class NonPlayer extends Entity {
 
   talkTo(dir) {
     this.game.talkSound.play()
-    this.game.textManager.bufferConvo(this.convo, this.key)
+    if (this.game.state.current === 'trivia') {
+      this.game.textManager.bufferConvo(this.convo, this.key, () => {
+        this.game.nonPlayerManager.kill(this)
+      })
+    } else {
+      this.game.textManager.bufferConvo(this.convo, this.key)
+    }
     this.setDirection(this.inverseDirection[dir])
     if (!this.spoken) {
       let lastPartConvo = this.convo[this.convo.length - 1]
