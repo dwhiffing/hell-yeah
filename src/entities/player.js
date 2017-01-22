@@ -43,7 +43,7 @@ export default class Player extends Entity {
   }
 
   takeMoveInput(dir) {
-    if (this.dir === dir) {
+    if (this.dir === dir && this.game.allowPushing) {
       let pushedTile = this.pushIfOccupied(dir)
       if (pushedTile) {
         this.moving = true
@@ -54,9 +54,6 @@ export default class Player extends Entity {
   }
 
   pushIfOccupied(dir) {
-    if (!this.game.allowPushing) {
-      return
-    }
     if (dir === 0 && this.game.gameMap.isOccupied(this.x, this.y-1)) {
       return this.game.gameMap.pushTile(this.x, this.y-1, this.x, this.y-2)
     }

@@ -72,9 +72,9 @@ export default class GameMap {
     this.playerY = spawnTile.y
   }
 
-  canWalk(x, y, layer='Tile Layer 1') {
-    const tile = this.map.getTile(x, y, layer)
-    return tile && tile.index % 3 !== 0
+  canWalk(x, y) {
+    const tile = this.map.getTile(x, y, 'Tile Layer 1')
+    return (tile && tile.index % 3 !== 0) && !this.getTile(x, y)
   }
 
   getTile(x, y, layer='Tile Layer 2') {
