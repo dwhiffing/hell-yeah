@@ -1,4 +1,4 @@
-let cursors, aKey, wKey, sKey, dKey, spaceKey, zKey
+let cursors, aKey, wKey, sKey, dKey, spaceKey, zKey, rKey
 let oneKey, twoKey, threeKey, fourKey, fiveKey
 
 export default class Interface {
@@ -10,6 +10,7 @@ export default class Interface {
     aKey = game.input.keyboard.addKey(Phaser.Keyboard.A)
     sKey = game.input.keyboard.addKey(Phaser.Keyboard.S)
     dKey = game.input.keyboard.addKey(Phaser.Keyboard.D)
+    rKey = game.input.keyboard.addKey(Phaser.Keyboard.P)
     spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     zKey = game.input.keyboard.addKey(Phaser.Keyboard.Z)
 
@@ -33,6 +34,10 @@ export default class Interface {
     this.addLeft = (fn) => {
       cursors.left.onDown.add(fn)
       aKey.onDown.add(fn)
+    }
+
+    this.addRestart = (fn) => {
+      rKey.onDown.add(fn)
     }
 
     this.spaceKey = spaceKey

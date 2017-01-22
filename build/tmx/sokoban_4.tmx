@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="7" tilewidth="116" tileheight="116" nextobjectid="1">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="12" height="9" tilewidth="116" tileheight="116" nextobjectid="1">
  <tileset firstgid="1" name="tile" tilewidth="116" tileheight="116" tilecount="20" columns="20">
   <image source="../images/tile.png" width="2320" height="116"/>
  </tileset>
@@ -9,35 +9,41 @@
  <tileset firstgid="27" name="triggers" tilewidth="116" tileheight="116" tilecount="6" columns="6">
   <image source="../images/triggers.png" width="696" height="116"/>
  </tileset>
- <layer name="Tile Layer 1" width="12" height="7">
+ <layer name="Tile Layer 1" width="12" height="9">
   <data encoding="csv">
 12,12,12,12,12,12,12,12,12,12,12,12,
-12,12,12,12,12,12,12,12,12,12,12,12,
-12,12,12,10,10,10,10,10,10,12,12,12,
-12,10,10,10,10,10,10,10,10,10,10,12,
-12,12,12,10,10,10,10,10,10,12,12,12,
-12,12,12,12,12,12,12,12,12,12,12,12,
+12,12,12,10,10,10,12,12,12,12,12,12,
+12,12,12,10,10,10,12,12,12,12,12,12,
+12,12,12,10,10,10,12,12,12,10,12,12,
+12,12,12,12,12,10,12,12,12,10,12,12,
+12,12,12,12,12,10,10,10,10,10,12,12,
+12,12,12,12,10,10,10,12,10,10,12,12,
+12,12,12,12,10,10,10,12,12,12,12,12,
 12,12,12,12,12,12,12,12,12,12,12,12
 </data>
  </layer>
- <layer name="Tile Layer 2" width="12" height="7">
+ <layer name="Tile Layer 2" width="12" height="9">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,21,0,0,0,0,0,0,0,
+0,0,0,0,21,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,21,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,21,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer name="Tile Layer 3" width="12" height="7">
+ <layer name="Tile Layer 3" width="12" height="9">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,27,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
-0,27,0,0,32,0,0,28,0,0,31,0,
-0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,28,0,0,
+0,0,0,0,0,0,0,0,0,28,0,0,
+0,0,0,0,0,0,0,0,0,28,0,0,
+0,0,0,0,0,31,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0
 </data>

@@ -1,12 +1,32 @@
 const tileSize = 116
 const spawnIndex = 27
 const exitIndex = 31
+const npcIndex = 32
 const stuffIndexes = [21, 22, 23]
 
 export default class GameMap {
-  constructor(game, mapKey, exitMap, direction) {
+  constructor(game, mapKey, exitMap, direction, numLevels, levelIndex=1) {
     this.game = game
-    this.map = game.add.tilemap(mapKey, tileSize, tileSize)
+    this.exitMap = exitMap
+    this.numLevels = numLevels
+    this.levelIndex = levelIndex
+    this.mapKey = mapKey
+    this.loadLevel = this.loadLevel.bind(this)
+    this.canExit = false
+    this.exits = []
+  }
+
+  loadLevel() {
+    if (this.map) {
+      this.map.destroy()
+    }
+
+    let mapKey = this.mapKey
+    if (this.levelIndex > 1) {
+      mapKey = this.mapKey+'_'+this.levelIndex
+    }
+
+    this.map = this.game.add.tilemap(mapKey, tileSize, tileSize)
     this.map.addTilesetImage('tile')
     this.map.addTilesetImage('stuff')
     this.map.addTilesetImage('triggers')
@@ -16,18 +36,21 @@ export default class GameMap {
     this.triggersLayer.resizeWorld()
     this.stuffLayer = this.map.createLayer('Tile Layer 2')
     this.stuffLayer.resizeWorld()
+    this.canExit = false
+
+    this.entityPositions = this.getTilesForIndex(npcIndex, 'Tile Layer 3')
+    this.entityPositions.forEach(e => this.destroyTile(e.x, e.y, 'Tile Layer 3'))
 
     let spawnTile = this.map.searchTileIndex(spawnIndex, 0, false, 'Tile Layer 3')
-    if (spawnTile) {
-      this.destroyTile(spawnTile.x, spawnTile.y, 'Tile Layer 3')
-    }
+    this.exits = this.getTilesForIndex(exitIndex, 'Tile Layer 3')
+    this.exits.forEach(e => e.alpha = 0)
+
     if (typeof direction === 'number') {
-      let exits = this.getPositionsForIndex(exitIndex, 'Tile Layer 3')
       let filteredExits = [
-        exits.filter(e => e.y === 0)[0],
-        exits.filter(e => e.x === this.map.width-1)[0],
-        exits.filter(e => e.y === this.map.height-1)[0],
-        exits.filter(e => e.x === 0)[0],
+        this.exits.filter(e => e.y === 0)[0],
+        this.exits.filter(e => e.x === this.map.width-1)[0],
+        this.exits.filter(e => e.y === this.map.height-1)[0],
+        this.exits.filter(e => e.x === 0)[0],
       ]
       let dest = filteredExits[direction]
       if (dest) { spawnTile = Object.assign({}, dest) }
@@ -47,14 +70,11 @@ export default class GameMap {
     }
     this.playerX = spawnTile.x
     this.playerY = spawnTile.y
-
-    this.getTilesForIndex(exitIndex, 'Tile Layer 3').forEach(t => t.alpha = 0)
-
-    this.exitMap = exitMap
   }
 
   canWalk(x, y, layer='Tile Layer 1') {
-    return !!this.map.getTile(x, y, layer)
+    const tile = this.map.getTile(x, y, layer)
+    return tile && tile.index % 3 !== 0
   }
 
   getTile(x, y, layer='Tile Layer 2') {
@@ -102,7 +122,22 @@ export default class GameMap {
   }
 
   exit(dir) {
+    if (!this.canExit) {
+      return
+    }
+
     let stateName = typeof this.exitMap === 'string' ? this.exitMap : this.exitMap[dir]
-    this.game.state.start(stateName, true, false, { direction: dir })
+    this.levelIndex++
+    if (this.levelIndex <= this.numLevels) {
+      this.game.loadLevel()
+    } else {
+      this.game.state.start(stateName, true, false, { direction: dir })
+    }
+  }
+
+  revealExit() {
+    this.canExit = true
+    this.exits.forEach(e => e.alpha = 1)
+    this.triggersLayer.dirty = true
   }
 }
