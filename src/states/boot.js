@@ -1,6 +1,6 @@
 export default {
   create() {
-    this.game.scale.scaleMode = 2
+    this.scale.fullScreenScaleMode = Phaser.ScaleManager.SHOW_ALL
     this.game.state.start('load', true, false)
   }
 }

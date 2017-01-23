@@ -5,11 +5,6 @@ export default class Interface {
   constructor(game) {
     this.game = game
 
-
-
-    this.game.sound.mute = true
-
-
     cursors = game.input.keyboard.createCursorKeys()
     wKey = game.input.keyboard.addKey(Phaser.Keyboard.W)
     aKey = game.input.keyboard.addKey(Phaser.Keyboard.A)
